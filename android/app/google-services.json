@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1018210824685",
-    "project_id": "skillful-cortex-316406",
-    "storage_bucket": "skillful-cortex-316406.appspot.com"
+    "project_number": "966241773756",
+    "project_id": "flutterproject-bb662",
+    "storage_bucket": "flutterproject-bb662.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1018210824685:android:4aae0069340ca4ccee37e4",
+        "mobilesdk_app_id": "1:966241773756:android:f056bb4dc0ea197bf608b9",
         "android_client_info": {
-          "package_name": "first.app.jupgging"
+          "package_name": "com.example.jubgging_project"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1018210824685-1i1emhu1n537rog8aq4dk91jgo39faci.apps.googleusercontent.com",
+          "client_id": "966241773756-trvnh5tuq6s7o9vlj7d9nqkrjjou7die.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBYkR3fMlnxf9zlGatcxrW-jbYat0899u0"
+          "current_key": "AIzaSyB0Y3Ym2KyIaPhd09c6MiJ50jO4Da6bOIY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1018210824685-1i1emhu1n537rog8aq4dk91jgo39faci.apps.googleusercontent.com",
+              "client_id": "966241773756-trvnh5tuq6s7o9vlj7d9nqkrjjou7die.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

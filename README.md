@@ -1,6 +1,6 @@
 # jupgging_project
 
-jubgging project
+jupgging project
 
 ## Getting Started
 

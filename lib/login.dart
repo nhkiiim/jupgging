@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:jubgging_project/data/user.dart';
+import 'package:jupgging/data/user.dart';
 
 class LoginPage extends StatefulWidget {
   @override

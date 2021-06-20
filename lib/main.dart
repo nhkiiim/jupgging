@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:jubgging_project/intro.dart';
-import 'package:jubgging_project/login.dart';
-import 'package:jubgging_project/signPage.dart';
-import 'package:jubgging_project/mainPage.dart';
+import 'package:jupgging/intro.dart';
+import 'package:jupgging/login.dart';
+import 'package:jupgging/signPage.dart';
+import 'package:jupgging/mainPage.dart';
 
 void main() {
   runApp(MyApp());

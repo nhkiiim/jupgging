@@ -1,5 +1,5 @@
-name: jubgging_project
-description: jubgging
+name: jupgging
+description: jupgging project
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 

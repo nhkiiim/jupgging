@@ -4,6 +4,9 @@ import 'package:jupgging/intro.dart';
 import 'package:jupgging/login.dart';
 import 'package:jupgging/signPage.dart';
 import 'package:jupgging/mainPage.dart';
+import 'package:jupgging/firstPage.dart';
+import 'package:jupgging/jupggingInfo.dart';
+import 'package:jupgging/jupggingEnd.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +25,9 @@ class MyApp extends StatelessWidget {
           '/intro': (context) => IntroPage(),
           '/login': (context) => LoginPage(),
           '/sign': (context) => SignPage(),
-          '/main': (context) => MainPage(),
+          '/main': (context) => FirstPage(),
+          '/main/info': (context) => JupggingInfo(),
+          '/main/info/end': (context) => JupggingEnd(),
         });
   }
 }

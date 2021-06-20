@@ -17,6 +17,7 @@ dependencies:
   path: ^1.7.0
   crypto: ^2.1.5
   shared_preferences: ^0.5.12
+  image_picker: ^0.6.7+17
 
   cupertino_icons: ^1.0.2
 

@@ -1,0 +1,132 @@
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:jupgging/runningInfo.dart';
+import 'package:jupgging/jupggingEnd.dart';
+
+class JupggingInfo extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _JupggingInfo();
+}
+
+class _JupggingInfo extends State<JupggingInfo> {
+  var _icon = Icons.pause; //시작버튼
+  var _color = Colors.grey; //버튼 색깔
+
+  Timer _timer; //타이머
+  var _time = 0;  //실제 늘어날 시간
+  var _isPlaying = true; //시작/정지 상태
+
+  @override
+  void dispose() {
+    _timer?.cancel();  //_timer가 null이 아니면 cancel() (null이면 아무것도 안함)
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _start();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+         child: Column(
+           children: [
+             //mapInfo((MediaQuery.of(context).size.height-50)*0.75),
+             Container(  //지도 부분
+               color: Colors.lightGreen,
+               height: (MediaQuery.of(context).size.height-50)*0.75,
+                 child: Center(
+                   child: Text('지도', textAlign: TextAlign.center, style: TextStyle(color: Colors.amber, fontSize: 30),),
+                 )
+             ),
+           Container(  //달린 거리, 시간 나오는 부분
+               height: (MediaQuery.of(context).size.height-50)*0.25+50,
+               color: Colors.white,
+               child: _runningtime()  //시간 계산
+        ),]
+      ),
+      ),
+      floatingActionButton: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment(Alignment.center.x -0.2, Alignment.center.y+0.9),
+            child: FloatingActionButton(
+              onPressed: () => setState(() {
+                _click();
+              }),
+              child: Icon(_icon),
+              backgroundColor: _color,
+            ),
+          ),
+          Align(
+            alignment: Alignment(Alignment.center.x +0.4, Alignment.center.y+0.9),
+            child: FloatingActionButton(
+              onPressed: () {
+                RunningInfo runinfo = new RunningInfo(minutes: _time~/60, seconds: _time%60);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => JupggingEnd(run: runinfo))
+                );
+              },
+              child: Icon(Icons.stop_rounded),
+              backgroundColor: Colors.red,
+            ),
+          )
+        ],
+      )
+    );
+  }
+
+  Widget _runningtime() {
+    var sec = _time%60; //초
+    var minute = _time ~/60; //분
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 60),
+        child: Stack(
+          children: <Widget> [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget> [
+                Text('0 km  ', style: TextStyle(fontSize: 30),),
+                Text('$minute 분 ', style: TextStyle(fontSize: 30),),
+                Text('$sec 초', style: TextStyle(fontSize: 30),),
+              ]
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _click() {
+    _isPlaying = !_isPlaying;
+
+    if (_isPlaying) {
+      _icon = Icons.pause;
+      _color = Colors.grey;
+      _start();
+    } else {
+      _icon = Icons.play_arrow;
+      _color = Colors.amber;
+      _pause();
+    }
+  }
+
+    void _start() {
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          _time++;
+        });
+      });
+    }
+    void _pause() {
+      _timer?.cancel();
+    }
+
+}

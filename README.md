@@ -1,4 +1,4 @@
-# jubgging_project
+# jupgging_project
 
 jubgging
 

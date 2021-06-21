@@ -13,13 +13,17 @@ dependencies:
     sdk: flutter
   firebase_core: ^0.5.1
   firebase_database: ^4.2.0
-  http: ^0.12.2
+  http: ^0.13.3
   path: ^1.7.0
   crypto: ^2.1.5
   shared_preferences: ^0.5.12
-  image_picker: ^0.6.7+17
+  image_picker: ^0.6.2+3
+  provider: ^4.0.4
+  google_maps_flutter: ^2.0.2
+  location: ^2.5.4
 
   cupertino_icons: ^1.0.2
+
 
 dev_dependencies:
   flutter_test:

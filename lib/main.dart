@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:jupgging/intro.dart';
 import 'package:jupgging/login.dart';
+import 'package:jupgging/provider/location_provider.dart';
 import 'package:jupgging/signPage.dart';
 import 'package:jupgging/mainPage.dart';
-import 'package:jupgging/firstPage.dart';
 import 'package:jupgging/jupggingInfo.dart';
 import 'package:jupgging/jupggingEnd.dart';
+import 'package:provider/provider.dart';
+import 'package:jupgging/firstPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,22 +17,31 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.deepOrange,
-        ),
-        initialRoute: '/intro',
-        routes: {
-          '/intro': (context) => IntroPage(),
-          '/login': (context) => LoginPage(),
-          '/sign': (context) => SignPage(),
-          '/main': (context) => FirstPage(),
-          '/main/info': (context) => JupggingInfo(),
-          '/main/info/end': (context) => JupggingEnd(),
-        });
+    return MultiProvider(
+      providers: [ //하나의 데이터를 여러페이지에 공유가능
+        ChangeNotifierProvider(
+          create:(context)=> LocationProvider(),//Location Provider 클래스 데이터 변하면 알려줌
+          child: FirstPage(),//firstmappage가 위치데이터에 접근가능
+        )
+      ],
+      child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.deepOrange,
+          ),
+          initialRoute: '/intro',
+          routes: {
+            '/intro': (context) => IntroPage(),
+            '/login': (context) => LoginPage(),
+            '/sign': (context) => SignPage(),
+            '/main': (context) => FirstPage(),
+            '/main/info': (context) => JupggingInfo(),
+            '/main/info/end': (context) => JupggingEnd(),
+          }),
+      );
   }
 }
+
 /*
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, @required this.title}) : super(key: key);

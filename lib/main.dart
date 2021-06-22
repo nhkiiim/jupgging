@@ -22,7 +22,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create:(context)=> LocationProvider(),//Location Provider 클래스 데이터 변하면 알려줌
           child: FirstPage(),//firstmappage가 위치데이터에 접근가능
-        )
+        ),
+        ChangeNotifierProvider(
+          create:(context)=> LocationProvider(),
+          child: JupggingInfo(),
+        ),
       ],
       child: MaterialApp(
           title: 'Flutter Demo',

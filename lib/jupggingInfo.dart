@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:jupgging/provider/location_provider.dart';
 import 'dart:async';
 import 'package:jupgging/runningInfo.dart';
 import 'package:jupgging/jupggingEnd.dart';
+import 'package:provider/provider.dart';
 
 class JupggingInfo extends StatefulWidget {
   @override
@@ -20,6 +23,7 @@ class _JupggingInfo extends State<JupggingInfo> {
   void dispose() {
     _timer?.cancel();  //_timer가 null이 아니면 cancel() (null이면 아무것도 안함)
     super.dispose();
+    Provider.of<LocationProvider>(context, listen: false).initialization(); //위치데이터를 읽어옴
   }
 
   @override
@@ -39,7 +43,7 @@ class _JupggingInfo extends State<JupggingInfo> {
                color: Colors.lightGreen,
                height: (MediaQuery.of(context).size.height-50)*0.75,
                  child: Center(
-                   child: Text('지도', textAlign: TextAlign.center, style: TextStyle(color: Colors.amber, fontSize: 30),),
+                   child: googleMapUI(),
                  )
              ),
            Container(  //달린 거리, 시간 나오는 부분
@@ -78,6 +82,41 @@ class _JupggingInfo extends State<JupggingInfo> {
         ],
       )
     );
+  }
+
+  Widget googleMapUI () {
+
+    return Consumer<LocationProvider>(builder: ( //changeNotifer가 변경될때마다 호촐
+        consumerContext,
+        model,
+        child
+        ) {
+      if(model.locationPosition != null){
+        return Column(
+          children:[
+            Expanded(
+                child: GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: CameraPosition(
+                      target: model.locationPosition,
+                      zoom: 18
+                  ),
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  onMapCreated: (GoogleMapController controller){
+                  },
+                )
+            )
+          ],
+        );
+      }
+
+      return Container(
+        child : Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    });
   }
 
   Widget _runningtime() {

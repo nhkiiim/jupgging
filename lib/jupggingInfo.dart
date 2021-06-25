@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:jupgging/firstPage.dart';
 import 'package:jupgging/provider/location_provider.dart';
 import 'dart:async';
 import 'package:jupgging/runningInfo.dart';
 import 'package:jupgging/jupggingEnd.dart';
 import 'package:provider/provider.dart';
+
+import 'location.dart';
 
 class JupggingInfo extends StatefulWidget {
   @override
@@ -14,6 +17,7 @@ class JupggingInfo extends StatefulWidget {
 class _JupggingInfo extends State<JupggingInfo> {
   var _icon = Icons.pause; //시작버튼
   var _color = Colors.grey; //버튼 색깔
+  Set<Marker>_markers = Set();
 
   Timer _timer; //타이머
   var _time = 0;  //실제 늘어날 시간
@@ -23,17 +27,28 @@ class _JupggingInfo extends State<JupggingInfo> {
   void dispose() {
     _timer?.cancel();  //_timer가 null이 아니면 cancel() (null이면 아무것도 안함)
     super.dispose();
-    Provider.of<LocationProvider>(context, listen: false).initialization(); //위치데이터를 읽어옴
   }
 
   @override
   void initState() {
     _start();
     super.initState();
+    Provider.of<LocationProvider>(context, listen: false).initialization(); //위치데이터를 읽어옴
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final st = ModalRoute.of(context).settings.arguments as InfoLocation; //시작위치 받기
+    LatLng start = st.start;
+    print('start $start');
+
+    _markers.add(Marker( //시작위치 마커
+        markerId: MarkerId("MyStartPosition"),
+        position: LatLng(start.latitude, start.longitude),
+        infoWindow: InfoWindow(title:'My Position',snippet:'Where am I?')
+    ));
+
     return Scaffold(
       body: Container(
          child: Column(
@@ -97,6 +112,7 @@ class _JupggingInfo extends State<JupggingInfo> {
             Expanded(
                 child: GoogleMap(
                   mapType: MapType.normal,
+                  markers: _markers,
                   initialCameraPosition: CameraPosition(
                       target: model.locationPosition,
                       zoom: 18

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jupgging/bottomBar.dart';
 
 import 'package:jupgging/intro.dart';
 import 'package:jupgging/login.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
             '/intro': (context) => IntroPage(),
             '/login': (context) => LoginPage(),
             '/sign': (context) => SignPage(),
-            '/main': (context) => FirstPage(),
+            '/main': (context) => BottomBar(),
             '/main/info': (context) => JupggingInfo(),
             '/main/info/end': (context) => JupggingEnd(),
           }),

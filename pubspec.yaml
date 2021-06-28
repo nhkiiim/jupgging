@@ -35,6 +35,7 @@ flutter:
   assets:
     - image/intro.png
     - image/flutter_logo.png
+    - image/tree.jpg
   fonts:
     - family: Pacifico
       fonts:

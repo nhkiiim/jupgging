@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jupgging/PersonalBoard.dart';
-import 'package:jupgging/firstPage.dart';
+import 'package:jupgging/boardPage/personalBoard.dart';
+import 'package:jupgging/boardPage/publicBoard.dart';
+import 'package:jupgging/mapPage/firstPage.dart';
 
 class BottomBar extends StatefulWidget{
   @override
@@ -19,7 +20,7 @@ class _BottomBar extends State<BottomBar> with SingleTickerProviderStateMixin{
     return Scaffold(
       body: TabBarView(
           controller: controller,                     // 컨트롤러 연결
-          children: [Red(), FirstPage(), PersonalBoard()]
+          children: [PublicBoard(), FirstPage(), PersonalBoard()]
       ),
       bottomNavigationBar: BottomAppBar(  //네비게이션바
         color: Colors.white,
@@ -36,11 +37,5 @@ class _BottomBar extends State<BottomBar> with SingleTickerProviderStateMixin{
   }
 }
 
-class Red extends StatelessWidget {
-  @override
-  Widget build(BuildContext context){
-    return Card(color: Colors.red);
-  }
-}
 
 

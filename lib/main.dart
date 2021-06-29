@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:jupgging/bottomBar.dart';
+import 'package:jupgging/components/bottomBar.dart';
 
-import 'package:jupgging/intro.dart';
-import 'package:jupgging/login.dart';
+import 'package:jupgging/components/intro.dart';
+import 'package:jupgging/userPage/login.dart';
 import 'package:jupgging/provider/location_provider.dart';
-import 'package:jupgging/signPage.dart';
-import 'package:jupgging/mainPage.dart';
-import 'package:jupgging/jupggingInfo.dart';
-import 'package:jupgging/jupggingEnd.dart';
+import 'package:jupgging/userPage/signPage.dart';
+import 'package:jupgging/mapPage/jupggingInfo.dart';
+import 'package:jupgging/mapPage/jupggingEnd.dart';
 import 'package:provider/provider.dart';
-import 'package:jupgging/firstPage.dart';
+import 'package:jupgging/mapPage/firstPage.dart';
 
 void main() {
   runApp(MyApp());

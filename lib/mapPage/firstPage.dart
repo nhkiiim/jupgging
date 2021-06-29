@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jupgging/provider/location_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:jupgging/location.dart';
+import 'package:jupgging/mapPage/location.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({Key key}) : super(key: key);

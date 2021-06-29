@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jupgging/runningInfo.dart';
+import 'package:jupgging/mapPage/runningInfo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 

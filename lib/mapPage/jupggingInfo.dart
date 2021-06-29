@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jupgging/firstPage.dart';
+import 'package:jupgging/mapPage/firstPage.dart';
 import 'package:jupgging/provider/location_provider.dart';
 import 'dart:async';
-import 'package:jupgging/runningInfo.dart';
-import 'package:jupgging/jupggingEnd.dart';
+import 'package:jupgging/mapPage/runningInfo.dart';
+import 'package:jupgging/mapPage/jupggingEnd.dart';
 import 'package:provider/provider.dart';
 
 import 'location.dart';

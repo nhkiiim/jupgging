@@ -17,11 +17,14 @@ class JupggingInfo extends StatefulWidget {
 class _JupggingInfo extends State<JupggingInfo> {
   var _icon = Icons.pause; //시작버튼
   var _color = Colors.grey; //버튼 색깔
-  Set<Marker>_markers = Set();
 
   Timer _timer; //타이머
   var _time = 0;  //실제 늘어날 시간
   var _isPlaying = true; //시작/정지 상태
+
+  Set<Marker>_markers = Set();
+  Set<Polyline> lines = Set();
+  List<LatLng> rpoints = List();
 
   @override
   void dispose() {
@@ -39,14 +42,16 @@ class _JupggingInfo extends State<JupggingInfo> {
   @override
   Widget build(BuildContext context) {
 
-    final st = ModalRoute.of(context).settings.arguments as InfoLocation; //시작위치 받기
-    LatLng start = st.start;
-    print('start $start');
+    final dp = ModalRoute.of(context).settings.arguments as InfoLocation; //시작위치 받기
+    LatLng departure = dp.start;//마크 출발점 찍기
+    if(rpoints==null)
+      rpoints.add(departure);
+    print('departure point:  $departure');
 
     _markers.add(Marker( //시작위치 마커
         markerId: MarkerId("MyStartPosition"),
-        position: LatLng(start.latitude, start.longitude),
-        infoWindow: InfoWindow(title:'My Position',snippet:'Where am I?')
+        position: LatLng(departure.latitude, departure.longitude),
+        infoWindow: InfoWindow(title:'Start Position',snippet:'Start Running!!')
     ));
 
     return Scaffold(
@@ -100,19 +105,31 @@ class _JupggingInfo extends State<JupggingInfo> {
   }
 
   Widget googleMapUI () {
-
     return Consumer<LocationProvider>(builder: ( //changeNotifer가 변경될때마다 호촐
         consumerContext,
         model,
         child
         ) {
       if(model.locationPosition != null){
+        LatLng end = LatLng(model.locationPosition.latitude,model.locationPosition.longitude);
+        rpoints.add(end);
+
+        lines.add(
+          Polyline(
+            points: rpoints,
+            color: Colors.amber,
+            polylineId: PolylineId("running route"),
+          ),
+        );
+
+
         return Column(
           children:[
             Expanded(
                 child: GoogleMap(
                   mapType: MapType.normal,
                   markers: _markers,
+                  polylines: lines,
                   initialCameraPosition: CameraPosition(
                       target: model.locationPosition,
                       zoom: 18
@@ -120,8 +137,8 @@ class _JupggingInfo extends State<JupggingInfo> {
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,
                   onMapCreated: (GoogleMapController controller){
-                  },
-                )
+
+                  })
             )
           ],
         );

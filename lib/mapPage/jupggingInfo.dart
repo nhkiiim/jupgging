@@ -90,10 +90,12 @@ class _JupggingInfo extends State<JupggingInfo> {
             child: FloatingActionButton(
               onPressed: () {
                 RunningInfo runinfo = new RunningInfo(minutes: _time~/60, seconds: _time%60);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => JupggingEnd(run: runinfo))
-                );
+                Navigator.of(context)
+                    .pushReplacementNamed('/main/info/end',arguments: JupggingEnd(run: runinfo,route:rpoints));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => JupggingEnd(run: runinfo))
+                // );
               },
               child: Icon(Icons.stop_rounded),
               backgroundColor: Colors.red,

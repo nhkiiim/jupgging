@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:jupgging/mapPage/jupggingInfo.dart';
 import 'package:jupgging/mapPage/runningInfo.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jupgging/provider/location_provider.dart';
 import 'dart:io';
 
+import 'package:provider/provider.dart';
+
 class JupggingEnd extends StatefulWidget {
+  final RunningInfo run ;
+  final List<LatLng> route;
+
   @override
   State<StatefulWidget> createState() => _JupggingEnd();
-  final RunningInfo run;
   //run = ModalRoute.of(context)!.settings.arguments as RunningInfo;
   //run = ModalRoute.of(context).settings.arguments;
-  JupggingEnd({Key key, @required this.run}) : super(key: key);
+  JupggingEnd({Key key, @required this.run, this.route}) : super(key: key);
 }
 
 class _JupggingEnd extends State<JupggingEnd> {
   File _image;
+  Set<Polyline> lines = Set();
+  List<LatLng> points = List();
   //final run = ModalRoute.of(context)!.settings.arguments as RunningInfo;
 
   void Photo(ImageSource source) async {
@@ -23,8 +32,12 @@ class _JupggingEnd extends State<JupggingEnd> {
 
   @override
   Widget build(BuildContext context) {
-    var m = widget.run.minutes;
-    var s = widget.run.seconds;
+    final info = ModalRoute.of(context).settings.arguments as JupggingEnd;
+    points = info.route;
+
+    var m = info.run.minutes;
+    var s = info.run.seconds;
+
     return Scaffold(
       body: Container(
         child: Column(
@@ -34,7 +47,7 @@ class _JupggingEnd extends State<JupggingEnd> {
                   color: Colors.lightGreen,
                   height: (MediaQuery.of(context).size.height-50)*0.75,
                   child: Center(
-                    child: Text('지도', textAlign: TextAlign.center, style: TextStyle(color: Colors.amber, fontSize: 30),),
+                    child: googleMapUI(),
                   )
               ),
               Container(  //달린 거리, 시간 나오는 부분
@@ -54,6 +67,7 @@ class _JupggingEnd extends State<JupggingEnd> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
   void _selectPhotoButton(context){
     showModalBottomSheet(
         context: context,
@@ -77,4 +91,52 @@ class _JupggingEnd extends State<JupggingEnd> {
         });
   }
 
+  Widget googleMapUI () {
+    return Consumer<LocationProvider>(builder: ( //changeNotifer가 변경될때마다 호촐
+        consumerContext,
+        model,
+        child
+        ) {
+
+      lines.add(
+        Polyline(
+          points: points,
+          color: Colors.amber,
+          polylineId: PolylineId("running route"),
+        ),
+      );
+
+      if(model.locationPosition != null){
+        // st.start=model.locationPosition;
+        // print('위치 ${st.start}');
+        return Column(
+          children:[
+            Expanded(
+                child: GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: CameraPosition(
+                      target: model.locationPosition,
+                      zoom: 18
+                  ),
+                  polylines: lines,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  onMapCreated: (GoogleMapController controller){
+
+                  },
+                )
+            )
+          ],
+        );
+      }
+
+      return Container(
+        child : Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    });
+  }
+
 }
+

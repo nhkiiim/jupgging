@@ -26,52 +26,70 @@ class _PersonalBoard extends State<PersonalBoard>{
        child: Column(
            children: [
              Container(
-               color:Colors.black12,
+               color: Colors.black12,
+               width: MediaQuery.of(context).size.width,
                height:200,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(35, 0, 35, 20),
-                      child: ClipRRect(
-                      borderRadius: BorderRadius.circular(55.0),
-                      child: Image.asset(
-                        'image/tree.jpg',
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.fill,
-                      ),
-                      ),
-                    ),
-                    Container(
-                        child: Column(
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(30, 60, 35, 20),
-                                child:Text("Running")
-                            ),
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(35, 0, 35, 20),
-                                child:Text("10km")
-                            ),
-                          ],
-                        )
-                    ),
-                    Container(
-                        child: Column(
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(20, 60, 35, 20),
-                                child:Text("Time")
-                            ),
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(20, 0, 35, 20),
-                                child:Text("14h")
-                            ),
-                          ],
-                        )
-                    ),
-                  ],
-                ),
+               child: Column(
+                 children: [
+                   Row(
+                     children: [
+                       Padding(
+                         padding: EdgeInsets.fromLTRB(35, 35, 35, 20),
+                         child: ClipRRect(
+                           borderRadius: BorderRadius.circular(55.0),
+                           child: Image.asset(
+                             'image/tree.jpg',
+                             width: 90,
+                             height: 90,
+                             fit: BoxFit.fill,
+                           ),
+                         ),
+                       ),
+                       Container(
+                           child: Column(
+                             children: [
+                               Padding(
+                                   padding: EdgeInsets.fromLTRB(30, 50, 35, 20),
+                                   child:Text("Running")
+                               ),
+                               Padding(
+                                   padding: EdgeInsets.fromLTRB(35, 0, 35, 20),
+                                   child:Text("10km")
+                               ),
+                             ],
+                           )
+                       ),
+                       Container(
+                           child: Column(
+                             children: [
+                               Padding(
+                                   padding: EdgeInsets.fromLTRB(20, 50, 35, 20),
+                                   child:Text("Time")
+                               ),
+                               Padding(
+                                   padding: EdgeInsets.fromLTRB(20, 0, 35, 20),
+                                   child:Text("14h")
+                               ),
+                             ],
+                           )
+                       ),
+                     ],
+                   ),
+                   Padding(
+                     padding: EdgeInsets.fromLTRB(100, 0, 100, 0),
+                     child: RaisedButton(
+                       child: Row(
+                         children: <Widget>[
+                           Icon(Icons.settings),
+                           Text('  setting')
+                         ],
+                         mainAxisAlignment: MainAxisAlignment.center,
+                       ),
+                       onPressed: (){},
+                     ),
+                   ),
+                 ],
+               ),
              ),
 
              AnimatedContainer(

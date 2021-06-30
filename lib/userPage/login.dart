@@ -136,8 +136,7 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
                                       .child(_idTextController.value.text)
                                       .onChildAdded
                                       .listen((event) {
-                                    User user = User.fromSnapshot(
-                                        DataSnapshot, event.snapshot);
+                                    User user = User.fromSnapshot(event.snapshot);
                                     var bytes = utf8
                                         .encode(_pwTextController.value.text);
                                     var digest = sha1.convert(bytes);

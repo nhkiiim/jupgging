@@ -5,6 +5,7 @@ import 'package:jupgging/components/intro.dart';
 import 'package:jupgging/userPage/login.dart';
 import 'package:jupgging/provider/location_provider.dart';
 import 'package:jupgging/userPage/signPage.dart';
+import 'package:jupgging/userPage/myPage.dart';
 import 'package:jupgging/mapPage/jupggingInfo.dart';
 import 'package:jupgging/mapPage/jupggingEnd.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
             '/main': (context) => BottomBar(),
             '/main/info': (context) => JupggingInfo(),
             '/main/info/end': (context) => JupggingEnd(),
+            '/mypage': (context) => MyPage(),
           }),
       );
   }

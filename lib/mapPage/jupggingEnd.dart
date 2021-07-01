@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jupgging/mapPage/jupggingInfo.dart';
 import 'package:jupgging/mapPage/runningInfo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jupgging/provider/location_provider.dart';

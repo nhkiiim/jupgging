@@ -44,9 +44,7 @@ class _JupggingInfo extends State<JupggingInfo> {
 
     final dp = ModalRoute.of(context).settings.arguments as InfoLocation; //시작위치 받기
     LatLng departure = dp.start;//마크 출발점 찍기
-    if(rpoints==null)
-      rpoints.add(departure);
-    print('departure point:  $departure');
+    if(rpoints==null) rpoints.add(departure);
 
     _markers.add(Marker( //시작위치 마커
         markerId: MarkerId("MyStartPosition"),
@@ -54,20 +52,21 @@ class _JupggingInfo extends State<JupggingInfo> {
         infoWindow: InfoWindow(title:'Start Position',snippet:'Start Running!!')
     ));
 
+
     return Scaffold(
       body: Container(
          child: Column(
            children: [
              //mapInfo((MediaQuery.of(context).size.height-50)*0.75),
              Container(  //지도 부분
-               color: Colors.lightGreen,
-               height: (MediaQuery.of(context).size.height-50)*0.75,
+               color: Colors.white,
+               height: (MediaQuery.of(context).size.height-50)*0.85,
                  child: Center(
                    child: googleMapUI(),
                  )
              ),
            Container(  //달린 거리, 시간 나오는 부분
-               height: (MediaQuery.of(context).size.height-50)*0.25+50,
+               height: (MediaQuery.of(context).size.height-50)*0.15+50,
                color: Colors.white,
                child: _runningtime()  //시간 계산
         ),]
@@ -76,7 +75,7 @@ class _JupggingInfo extends State<JupggingInfo> {
       floatingActionButton: Stack(
         children: <Widget>[
           Align(
-            alignment: Alignment(Alignment.center.x -0.2, Alignment.center.y+0.9),
+            alignment: Alignment(Alignment.center.x -0.2, Alignment.center.y+1.0),
             child: FloatingActionButton(
               onPressed: () => setState(() {
                 _click();
@@ -86,12 +85,13 @@ class _JupggingInfo extends State<JupggingInfo> {
             ),
           ),
           Align(
-            alignment: Alignment(Alignment.center.x +0.4, Alignment.center.y+0.9),
+            alignment: Alignment(Alignment.center.x +0.4, Alignment.center.y+1.0),
             child: FloatingActionButton(
               onPressed: () {
+                _pause();
                 RunningInfo runinfo = new RunningInfo(minutes: _time~/60, seconds: _time%60);
                 Navigator.of(context)
-                    .pushReplacementNamed('/main/info/end',arguments: JupggingEnd(run: runinfo,route:rpoints));
+                    .pushReplacementNamed('/main/info/end',arguments: JupggingEnd(run: runinfo,route:rpoints,spoint:departure));
                 // Navigator.push(
                 //     context,
                 //     MaterialPageRoute(builder: (context) => JupggingEnd(run: runinfo))
@@ -113,17 +113,17 @@ class _JupggingInfo extends State<JupggingInfo> {
         child
         ) {
       if(model.locationPosition != null){
-        LatLng end = LatLng(model.locationPosition.latitude,model.locationPosition.longitude);
+
+        LatLng end = LatLng(model.locationPosition.latitude,model.locationPosition.longitude); //point
         rpoints.add(end);
 
-        lines.add(
+        lines.add( //polyline point추가
           Polyline(
             points: rpoints,
             color: Colors.amber,
             polylineId: PolylineId("running route"),
           ),
         );
-
 
         return Column(
           children:[
@@ -139,7 +139,6 @@ class _JupggingInfo extends State<JupggingInfo> {
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,
                   onMapCreated: (GoogleMapController controller){
-
                   })
             )
           ],
@@ -167,9 +166,9 @@ class _JupggingInfo extends State<JupggingInfo> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget> [
-                Text('0 km  ', style: TextStyle(fontSize: 30),),
-                Text('$minute 분 ', style: TextStyle(fontSize: 30),),
-                Text('$sec 초', style: TextStyle(fontSize: 30),),
+                Text('0 km  ', style: TextStyle(fontSize: 20),),
+                Text('$minute 분 ', style: TextStyle(fontSize: 20),),
+                Text('$sec 초', style: TextStyle(fontSize: 20),),
               ]
             )
           ],

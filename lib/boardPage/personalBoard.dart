@@ -63,7 +63,7 @@ class _PersonalBoard extends State<PersonalBoard> {
                                 Padding(
                                     padding: EdgeInsets.fromLTRB(
                                         30, 50, 35, 20),
-                                    child: Text("Running")
+                                    child: Text("Running",style:TextStyle(fontWeight: FontWeight.bold))
                                 ),
                                 Padding(
                                     padding: EdgeInsets.fromLTRB(35, 0, 35, 20),
@@ -78,7 +78,7 @@ class _PersonalBoard extends State<PersonalBoard> {
                                 Padding(
                                     padding: EdgeInsets.fromLTRB(
                                         20, 50, 35, 20),
-                                    child: Text("Time")
+                                    child: Text("Time",style:TextStyle(fontWeight: FontWeight.bold))
                                 ),
                                 Padding(
                                     padding: EdgeInsets.fromLTRB(20, 0, 35, 20),
@@ -101,7 +101,7 @@ class _PersonalBoard extends State<PersonalBoard> {
                         ),
                         onPressed: () {
                           Navigator.of(context)
-                              .pushReplacementNamed('/mypage');
+                              .pushNamed('/mypage');
                         },
                       ),
                     ),

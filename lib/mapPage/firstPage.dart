@@ -37,13 +37,13 @@ class _FirstPageState extends State<FirstPage> with SingleTickerProviderStateMix
             children: [
               //mapInfo((MediaQuery.of(context).size.height-50)*0.75),
               Container(  //지도 부분
-                  color: Colors.lightGreen,
-                  height: (MediaQuery.of(context).size.height-50)*0.75,
+                  color: Colors.white,
+                  height: (MediaQuery.of(context).size.height-50)*0.85,
                   child:googleMapUI(),               ),
               Container(  //달린 거리, 시간 나오는 부분
-                height: (MediaQuery.of(context).size.height-50)*0.25,
+                height: (MediaQuery.of(context).size.height-50)*0.15,
                 color: Colors.white,
-                child: Text("시작을 눌러주세요",textAlign: TextAlign.center,style:TextStyle(fontSize: 30)),  //시간 계산
+                child: Text("시작을 눌러주세요",textAlign: TextAlign.center,style:TextStyle(fontSize: 20)),  //시간 계산
               ),]
         ),
       ),

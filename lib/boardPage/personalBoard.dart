@@ -101,7 +101,7 @@ class _PersonalBoard extends State<PersonalBoard> {
                         ),
                         onPressed: () {
                           Navigator.of(context)
-                              .pushReplacementNamed('/mypage');
+                              .pushNamed('/mypage');
                         },
                       ),
                     ),

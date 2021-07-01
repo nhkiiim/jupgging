@@ -91,7 +91,8 @@ class _JupggingInfo extends State<JupggingInfo> {
                 _pause();
                 RunningInfo runinfo = new RunningInfo(minutes: _time~/60, seconds: _time%60);
                 Navigator.of(context)
-                    .pushReplacementNamed('/main/info/end',arguments: JupggingEnd(run: runinfo,route:rpoints,spoint:departure));
+                    .pushReplacementNamed('/main/info/end',
+                    arguments: JupggingEnd(run: runinfo,route:rpoints,spoint:departure));
                 // Navigator.push(
                 //     context,
                 //     MaterialPageRoute(builder: (context) => JupggingEnd(run: runinfo))

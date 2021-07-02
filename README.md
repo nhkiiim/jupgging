@@ -1,6 +1,6 @@
-# jupgging_project
+# jupgging
 
-jupgging project
+A new Flutter project.
 
 ## Getting Started
 

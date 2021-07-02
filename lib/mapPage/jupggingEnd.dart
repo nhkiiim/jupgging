@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -63,7 +64,8 @@ class _JupggingEnd extends State<JupggingEnd> {
                   color: Colors.white,
                   height: (MediaQuery.of(context).size.height-50)*0.85,
                   child: Center(
-                    child: googleMapUI(),
+                    //child: googleMapUI(),
+                    child:_image == null ? Text('No Image') : Image.file(File(_image.path)),
                   )
               ),
               Container(  //달린 거리, 시간 나오는 부분
@@ -99,7 +101,7 @@ class _JupggingEnd extends State<JupggingEnd> {
                 ListTile(
                   leading: Icon(Icons.photo),
                   title: Text("앨범에서 가져오기"),
-                  onTap: () => Photo(ImageSource.gallery),
+                  onTap: () => _uploadImageToStorage(ImageSource .gallery),
                 ),
               ],
             ),
@@ -166,6 +168,35 @@ class _JupggingEnd extends State<JupggingEnd> {
           child: CircularProgressIndicator(),
         ),
       );
+    });
+  }
+  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  String _profileImageURL = "";
+
+  void _uploadImageToStorage(ImageSource source) async {
+    File image = await ImagePicker.pickImage(source: source);
+
+    if (image == null) return;
+    setState(() {
+      _image = image;
+    });
+
+    // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
+    StorageReference storageReference =
+    _firebaseStorage.ref().child("map/${DateTime.now().millisecondsSinceEpoch}.png");
+
+    // 파일 업로드
+    StorageUploadTask storageUploadTask = storageReference.putFile(_image);
+
+    // 파일 업로드 완료까지 대기
+    await storageUploadTask.onComplete;
+
+    // 업로드한 사진의 URL 획득
+    String downloadURL = await storageReference.getDownloadURL();
+
+    // 업로드된 사진의 URL을 페이지에 반영
+    setState(() {
+      _profileImageURL = downloadURL;
     });
   }
 

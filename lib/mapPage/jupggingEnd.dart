@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,6 +12,7 @@ import 'package:jupgging/provider/location_provider.dart';
 import 'dart:io';
 import 'dart:math' show cos, sqrt,asin;
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 
 class JupggingEnd extends StatefulWidget {
   final RunningInfo run ;
@@ -22,6 +24,7 @@ class JupggingEnd extends StatefulWidget {
   //run = ModalRoute.of(context)!.settings.arguments as RunningInfo;
   //run = ModalRoute.of(context).settings.arguments;
   JupggingEnd({Key key, @required this.run, this.route, this.spoint}) : super(key: key);
+
 }
 
 class _JupggingEnd extends State<JupggingEnd> {
@@ -32,6 +35,9 @@ class _JupggingEnd extends State<JupggingEnd> {
 
   double distance=0.0; //거리
   LatLng start_point,end_point; //거리계산위한 시작점, 끝점받기
+  Uint8List _imageFile;
+  ScreenshotController screenshotController = ScreenshotController();
+
 
 
   //final run = ModalRoute.of(context)!.settings.arguments as RunningInfo;
@@ -64,8 +70,12 @@ class _JupggingEnd extends State<JupggingEnd> {
                   color: Colors.white,
                   height: (MediaQuery.of(context).size.height-50)*0.85,
                   child: Center(
-                    //child: googleMapUI(),
-                    child:_image == null ? Text('No Image') : Image.file(File(_image.path)),
+                    child:
+                    Screenshot(
+                      controller: screenshotController,
+                      child : googleMapUI(),
+                    ),
+                    //child:_image == null ? Text('No Image') : Image.file(File(_image.path)),
                   )
               ),
               Container(  //달린 거리, 시간 나오는 부분
@@ -171,7 +181,7 @@ class _JupggingEnd extends State<JupggingEnd> {
     });
   }
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  String _profileImageURL = "";
+  String _imgUrl = "";
 
   void _uploadImageToStorage(ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
@@ -196,7 +206,7 @@ class _JupggingEnd extends State<JupggingEnd> {
 
     // 업로드된 사진의 URL을 페이지에 반영
     setState(() {
-      _profileImageURL = downloadURL;
+      _imgUrl = downloadURL;
     });
   }
 

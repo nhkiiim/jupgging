@@ -13,7 +13,7 @@ class _BottomBar extends State<BottomBar> with SingleTickerProviderStateMixin{
 
   void initState(){
     super.initState();
-    controller = TabController(length: 3, vsync: this);
+    controller = TabController(length: 3, vsync: this, initialIndex: 1);
   }
   @override
   Widget build(BuildContext context) {

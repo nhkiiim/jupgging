@@ -19,7 +19,7 @@ class _PublicBoard extends State<PublicBoard>{
            Padding(
              padding: const EdgeInsets.fromLTRB(0,25,0,0),
              child: Container(
-               color:Colors.black12,
+               color:Colors.deepOrange,
                height:50,
                child: Row(
                    children: [
@@ -37,7 +37,7 @@ class _PublicBoard extends State<PublicBoard>{
                      ),
                       Padding(
                       padding: EdgeInsets.fromLTRB(10, 15, 35, 20),
-                        child: Text("nahye_on"),
+                        child: Text("nahye_on", style:TextStyle(color: Colors.white,)),
                       )
                    ]
                )

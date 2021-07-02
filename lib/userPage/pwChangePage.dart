@@ -64,6 +64,7 @@ class _PwChangePage extends State<PwChangePage> {
                         User upUser = User(user.name, id, digest1.toString(),
                             user.email, user.createTime);
                         reference
+                            .child(id)
                             .child(user.key)
                             .set(upUser.toJson())
                             .then((_) {

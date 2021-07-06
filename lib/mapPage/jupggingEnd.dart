@@ -75,7 +75,7 @@ class _JupggingEnd extends State<JupggingEnd> {
                 height: (MediaQuery.of(context).size.height-50)*0.15+50,
                 color: Colors.white,
                 child: Text('$distance km $m 분 $s 초',textAlign: TextAlign.center,style:TextStyle(fontSize: 20)),  //시간 계산
-                ),
+              ),
             ]
         ),
       ),

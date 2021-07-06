@@ -27,7 +27,7 @@ class _MyPage extends State<MyPage> {
   void initState() {
     super.initState();
 
-    id = 'happy123';
+    //id = 'happy123';
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
 
@@ -57,9 +57,6 @@ class _MyPage extends State<MyPage> {
               var digest = sha1.convert(bytes);
               if(user.pw == digest.toString()) {
                 if(user.email != _emailTextController.value.text){
-                  print(user.email);
-                  print(_emailTextController.value.text);
-                  print(user.email != _emailTextController.value.text);
                   User upUser = User(user.name, user.id, user.pw,
                       _emailTextController.value.text, user.createTime);
                   reference
@@ -219,7 +216,37 @@ class _MyPage extends State<MyPage> {
                     ),
                     Container(
                         child: FlatButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('${user.id}님'),
+                                    content: Text('회원탈퇴 하시겠습니까?'),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                          onPressed: (){
+                                            reference
+                                                .child(user.id)
+                                                .remove()
+                                                .then((_) {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context).pushReplacementNamed(
+                                                    '/login',);
+                                            });
+                                          },
+                                          child: Text('예')),
+                                      FlatButton(
+                                          onPressed: (){
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('아니오'))
+                                    ],
+                                  );
+                                }
+                              );
+                            },
                             child: Text(
                               '회원 탈퇴하기',
                               style: TextStyle(color: Colors.blue),

@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:jupgging/mapPage/runningInfo.dart';
 import 'package:jupgging/mapPage/jupggingEnd.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:math' show cos, sqrt,asin;
 import 'location.dart';
 
 class JupggingInfo extends StatefulWidget {
@@ -26,6 +26,9 @@ class _JupggingInfo extends State<JupggingInfo> {
   Set<Polyline> lines = Set();
   List<LatLng> rpoints = List();
 
+  LatLng departure;
+  double distance=0.0; //거리
+
   @override
   void dispose() {
     _timer?.cancel();  //_timer가 null이 아니면 cancel() (null이면 아무것도 안함)
@@ -43,7 +46,7 @@ class _JupggingInfo extends State<JupggingInfo> {
   Widget build(BuildContext context) {
 
     final dp = ModalRoute.of(context).settings.arguments as InfoLocation; //시작위치 받기
-    LatLng departure = dp.start;//마크 출발점 찍기
+    departure = dp.start;//출발점 위치
     if(rpoints==null) rpoints.add(departure);
 
     _markers.add(Marker( //시작위치 마커
@@ -92,7 +95,7 @@ class _JupggingInfo extends State<JupggingInfo> {
                 RunningInfo runinfo = new RunningInfo(minutes: _time~/60, seconds: _time%60);
                 Navigator.of(context)
                     .pushReplacementNamed('/main/info/end',
-                    arguments: JupggingEnd(run: runinfo,route:rpoints,spoint:departure));
+                    arguments: JupggingEnd(run: runinfo,route:rpoints,departure:departure,distance:distance));
                 // Navigator.push(
                 //     context,
                 //     MaterialPageRoute(builder: (context) => JupggingEnd(run: runinfo))
@@ -108,23 +111,32 @@ class _JupggingInfo extends State<JupggingInfo> {
   }
 
   Widget googleMapUI () {
-    return Consumer<LocationProvider>(builder: ( //changeNotifer가 변경될때마다 호촐
+    return Consumer<LocationProvider>(builder: (
         consumerContext,
         model,
         child
         ) {
       if(model.locationPosition != null){
 
-        LatLng end = LatLng(model.locationPosition.latitude,model.locationPosition.longitude); //point
-        rpoints.add(end);
+        //현재위치
+        LatLng current_location = LatLng(model.locationPosition.latitude,model.locationPosition.longitude);
+        rpoints.add(current_location);
 
-        lines.add( //polyline point추가
+        //polyline point추가
+        lines.add(
           Polyline(
             points: rpoints,
             color: Colors.amber,
             polylineId: PolylineId("running route"),
           ),
         );
+
+        //거리계산
+        distance = double_coordinateDistance(
+            departure.latitude, departure.longitude, current_location.latitude,
+            current_location.longitude);
+        distance = double.parse(distance.toStringAsFixed(2)); //소수점 한자리
+
 
         return Column(
           children:[
@@ -167,7 +179,7 @@ class _JupggingInfo extends State<JupggingInfo> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget> [
-                Text('0 km  ', style: TextStyle(fontSize: 20),),
+                Text('$distance km  ', style: TextStyle(fontSize: 20),),
                 Text('$minute 분 ', style: TextStyle(fontSize: 20),),
                 Text('$sec 초', style: TextStyle(fontSize: 20),),
               ]
@@ -202,5 +214,16 @@ class _JupggingInfo extends State<JupggingInfo> {
     void _pause() {
       _timer?.cancel();
     }
+
+    //거리계산공식
+  double_coordinateDistance(lat1,lon1,lat2,lon2){
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
 
 }

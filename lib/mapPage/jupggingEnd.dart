@@ -151,6 +151,7 @@ class _JupggingEnd extends State<JupggingEnd> {
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,
                   onMapCreated: (GoogleMapController controller){
+
                   },
                 )
             )

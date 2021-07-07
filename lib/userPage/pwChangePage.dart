@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
-import 'package:jupgging/data/user.dart';
+import 'package:jupgging/models/user.dart';
 
 class PwChangePage extends StatefulWidget {
   @override

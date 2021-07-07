@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:jupgging/models/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,12 +35,27 @@ class _JupggingEnd extends State<JupggingEnd> {
   double distance=0.0; //거리
   LatLng start_point, end_point; //거리계산위한 시작점, 끝점받기
 
+  FirebaseDatabase _database;
+  DatabaseReference reference;
+  String _databaseURL =
+      'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  String id;
 
   //final run = ModalRoute.of(context)!.settings.arguments as RunningInfo;
 
   void Photo(ImageSource source) async {
     File file = await ImagePicker.pickImage(source: source);
     setState(() => _image = file);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    id = 'happy123';
+    _database = FirebaseDatabase(databaseURL: _databaseURL);
+    reference = _database.reference().child('image');
+
   }
 
   @override
@@ -193,6 +210,15 @@ class _JupggingEnd extends State<JupggingEnd> {
     // 업로드된 사진의 URL을 페이지에 반영
     setState(() {
       _profileImageURL = downloadURL;
+    });
+
+    //url을 db에 저장
+    reference
+      .child(id)
+      .push()
+      .set(ImageURL(downloadURL,DateTime.now().toIso8601String()).toJson())
+      .then((_) {
+        print('url 저장완료');
     });
   }
 

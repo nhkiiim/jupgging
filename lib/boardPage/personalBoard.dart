@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:jupgging/data/user.dart';
+import 'package:jupgging/models/user.dart';
 
 class PersonalBoard extends StatefulWidget {
   @override
@@ -9,7 +9,7 @@ class PersonalBoard extends StatefulWidget {
 }
 
 class _PersonalBoard extends State<PersonalBoard> {
-  String _imgUrl="";
+  List _imgUrl;
   String id;
   User user;
   FirebaseDatabase _database;
@@ -29,11 +29,15 @@ class _PersonalBoard extends State<PersonalBoard> {
       setState(() {_imgUrl = value;})
     });
   }
-  Future<String> ImageDownload() async{
+  Future<List> ImageDownload() async{
     FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-    StorageReference storageReference = _firebaseStorage.ref().child("map/1625230640853.png");
+    StorageReference storageReference = _firebaseStorage.ref().child("map/1625230581747.png");
     String downloadImg = await storageReference.getDownloadURL();
-    return downloadImg;
+    StorageReference storageReference1 = _firebaseStorage.ref().child("map/1625239722429.png");
+    String downloadImg1 = await storageReference1.getDownloadURL();
+    print(downloadImg1);
+    List a=[downloadImg,downloadImg1];
+    return a;
   }
   GridView _imageGrid() {
     return GridView.count(
@@ -42,7 +46,8 @@ class _PersonalBoard extends State<PersonalBoard> {
       crossAxisCount: 3,
       childAspectRatio: 1,
       children: [
-        Image.network(_imgUrl,fit: BoxFit.fill)
+        Image.network(_imgUrl[0],fit: BoxFit.fill),
+        Image.network(_imgUrl[1],fit: BoxFit.fill)
       ],
     );
   }

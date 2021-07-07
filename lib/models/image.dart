@@ -14,7 +14,7 @@ class ImageURL {
 
   toJson() {
     return {
-      'name': url,
+      'url': url,
       'createTime': createTime,
     };
   }

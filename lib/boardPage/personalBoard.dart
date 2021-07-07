@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:jupgging/models/user.dart';
+import 'package:jupgging/models/image.dart';
 
 class PersonalBoard extends StatefulWidget {
   @override
@@ -9,11 +10,12 @@ class PersonalBoard extends StatefulWidget {
 }
 
 class _PersonalBoard extends State<PersonalBoard> {
-  List _imgUrl;
+  List<ImageURL> _imgUrl = List();
   String id;
   User user;
   FirebaseDatabase _database;
   DatabaseReference reference;
+  DatabaseReference referenceImg;
   String _databaseURL =
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
 
@@ -24,21 +26,30 @@ class _PersonalBoard extends State<PersonalBoard> {
     id = 'happy123';
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
+    referenceImg = _database.reference().child('image');
 
-    ImageDownload().then((value)=>{
-      setState(() {_imgUrl = value;})
+    // ImageDownload().then((value)=>{
+    //   setState(() {_imgUrl = value;})
+    // });
+    referenceImg.child(id).onChildAdded.listen((event) {
+      print(event.snapshot.value.toString());
+      setState(() {
+        _imgUrl.add(ImageURL.fromSnapshot(event.snapshot));
+      });
     });
+
   }
-  Future<List> ImageDownload() async{
-    FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-    StorageReference storageReference = _firebaseStorage.ref().child("map/1625230581747.png");
-    String downloadImg = await storageReference.getDownloadURL();
-    StorageReference storageReference1 = _firebaseStorage.ref().child("map/1625239722429.png");
-    String downloadImg1 = await storageReference1.getDownloadURL();
-    print(downloadImg1);
-    List a=[downloadImg,downloadImg1];
-    return a;
-  }
+
+  // Future<List> ImageDownload() async{
+  //   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  //   StorageReference storageReference = _firebaseStorage.ref().child("map/1625230581747.png");
+  //   String downloadImg = await storageReference.getDownloadURL();
+  //   StorageReference storageReference1 = _firebaseStorage.ref().child("map/1625239722429.png");
+  //   String downloadImg1 = await storageReference1.getDownloadURL();
+  //   print(downloadImg1);
+  //   List a=[downloadImg,downloadImg1];
+  //   return a;
+  // }
   GridView _imageGrid() {
     return GridView.count(
 
@@ -46,13 +57,14 @@ class _PersonalBoard extends State<PersonalBoard> {
       crossAxisCount: 3,
       childAspectRatio: 1,
       children: [
-        Image.network(_imgUrl[0],fit: BoxFit.fill),
-        Image.network(_imgUrl[1],fit: BoxFit.fill)
+        Image.network(_imgUrl[0].url,fit: BoxFit.fill),
+        Image.network(_imgUrl[1].url,fit: BoxFit.fill)
       ],
     );
   }
 
   Widget build(BuildContext context) {
+    print(_imgUrl[0].createTime);
     return Scaffold(
       body: Container(
         child: Column(
@@ -140,7 +152,10 @@ class _PersonalBoard extends State<PersonalBoard> {
                 transform: Matrix4.translationValues(0, 0, 0),
                 duration: Duration(milliseconds: 10),
                 curve: Curves.linear,
-                child: _imageGrid(),
+                child:
+                Text('_imgUrl[0].url'),
+
+                //_imageGrid(),
               ),
             ]
         ),

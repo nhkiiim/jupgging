@@ -147,7 +147,7 @@ class _JupggingInfo extends State<JupggingInfo> {
                   polylines: lines,
                   initialCameraPosition: CameraPosition(
                       target: model.locationPosition,
-                      zoom: 18
+                      zoom: 17
                   ),
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,

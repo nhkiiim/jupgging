@@ -12,6 +12,7 @@ import 'package:jupgging/provider/location_provider.dart';
 import 'dart:io';
 import 'dart:math' show cos, sqrt,asin;
 import 'package:provider/provider.dart';
+import 'dart:typed_data';
 
 class JupggingEnd extends StatefulWidget {
   final RunningInfo run ;
@@ -41,7 +42,6 @@ class _JupggingEnd extends State<JupggingEnd> {
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
   String id;
 
-  //final run = ModalRoute.of(context)!.settings.arguments as RunningInfo;
 
   void Photo(ImageSource source) async {
     File file = await ImagePicker.pickImage(source: source);
@@ -83,8 +83,7 @@ class _JupggingEnd extends State<JupggingEnd> {
                   color: Colors.white,
                   height: (MediaQuery.of(context).size.height-50)*0.85,
                   child: Center(
-                    child: googleMapUI(),
-                    //child:_image == null ? Text('No Image') : Image.file(File(_image.path)),
+                    child:_image == null ? googleMapUI(): Image.file(File(_image.path)),
                   )
               ),
               Container(  //달린 거리, 시간 나오는 부분
@@ -161,14 +160,13 @@ class _JupggingEnd extends State<JupggingEnd> {
                   mapType: MapType.normal,
                   initialCameraPosition: CameraPosition(
                       target: model.locationPosition,
-                      zoom: 18
+                      zoom: 16
                   ),
                   markers: _markers,
                   polylines: lines,
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,
                   onMapCreated: (GoogleMapController controller){
-
                   },
                 )
             )

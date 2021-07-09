@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 import 'dart:typed_data';
 
 class JupggingEnd extends StatefulWidget {
-  final RunningInfo run ;
+  final RunningInfo run;
   final List<LatLng> route;
   final LatLng departure;
   final double distance;
@@ -181,6 +181,8 @@ class _JupggingEnd extends State<JupggingEnd> {
       );
     });
   }
+
+
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = "";
 

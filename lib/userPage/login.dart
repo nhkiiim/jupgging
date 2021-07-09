@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:jupgging/models/user.dart';
 
 class LoginPage extends StatefulWidget {
@@ -141,6 +142,7 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
                                         .encode(_pwTextController.value.text);
                                     var digest = sha1.convert(bytes);
                                     if (user.pw == digest.toString()) {
+                                      success(user.id);
                                       Navigator.of(context)
                                           .pushReplacementNamed('/main',
                                               arguments:
@@ -176,4 +178,9 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
           );
         });
   }
+}
+
+Future success(String id) async{
+  await FlutterSession().set('token',id);
+  dynamic token = FlutterSession().get('token');
 }

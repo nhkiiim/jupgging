@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:jupgging/models/user.dart';
 import 'package:jupgging/models/image.dart';
 
@@ -22,8 +23,8 @@ class _PersonalBoard extends State<PersonalBoard> {
   @override
   void initState() {
     super.initState();
-
     id = 'happy123';
+
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
     referenceImg = _database.reference().child('image');

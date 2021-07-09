@@ -30,34 +30,39 @@ class _FirstPageState extends State<FirstPage> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body:
       Container(
+        color: Colors.white,
         child: Column(
             children: [
               //mapInfo((MediaQuery.of(context).size.height-50)*0.75),
               Container(  //지도 부분
                   color: Colors.white,
-                  height: (MediaQuery.of(context).size.height-50)*0.85,
+                  height: (screenHeight-50)*0.85,
                   child:googleMapUI(),               ),
               Container(  //달린 거리, 시간 나오는 부분
-                height: (MediaQuery.of(context).size.height-50)*0.15,
+                height: (screenHeight-50)*0.15,
                 color: Colors.white,
-                child: Text("시작을 눌러주세요",textAlign: TextAlign.center,style:TextStyle(fontSize: 20)),  //시간 계산
+                child: Text("시작을 눌러주세요",textAlign: TextAlign.center,style:TextStyle(fontSize: screenHeight*0.03)),  //시간 계산
               ),]
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(() {
-          _isStart = !_isStart;
+      floatingActionButton: SizedBox(
+        height: (screenHeight-50)*0.15*0.4,
+        child:FloatingActionButton(
+          onPressed: () => setState(() {
+            _isStart = !_isStart;
 
-          if (_isStart) {
-            Navigator.of(context)
-                .pushReplacementNamed('/main/info',arguments: InfoLocation(start:st.start));
-          }
-        }),
-        child: Icon(_icon),
-        backgroundColor: _color,
+            if (_isStart) {
+              Navigator.of(context)
+                  .pushReplacementNamed('/main/info',arguments: InfoLocation(start:st.start));
+            }
+          }),
+          child: Icon(_icon),
+          backgroundColor: _color,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

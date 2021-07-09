@@ -62,7 +62,7 @@ class _PersonalBoard extends State<PersonalBoard> {
   }
 
   Widget build(BuildContext context) {
-    //_imgUrl=List.from(_imgUrl.reversed);
+    _imgUrl = List.from(_imgUrl.reversed);
     print('ddddddd' + _imgUrl[0].url);
     return Scaffold(
       body: Container(
@@ -146,43 +146,38 @@ class _PersonalBoard extends State<PersonalBoard> {
               ],
             ),
           ),
-          AnimatedContainer(
-              transform: Matrix4.translationValues(0, 0, 0),
-              duration: Duration(milliseconds: 10),
-              curve: Curves.linear,
-              child: _imgUrl.length == 0
-                  ? CircularProgressIndicator()
-                  : GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          //child: GridTile(
-                            child: Container(
-                              width: 200,
-                              //padding: EdgeInsets.only(top: 20, bottom: 20),
-                              child: SizedBox(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    //누르면 인스타 개인 게시물처럼 보기
-                                  },
-                                  child:
+          _imgUrl.length == 0
+              ? CircularProgressIndicator()
+              : Expanded(
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        //child: GridTile(
+                        child: Container(
+                          //width: 200,
+                          //padding: EdgeInsets.only(top: 20, bottom: 20),
+                          child: SizedBox(
+                            child: GestureDetector(
+                              onTap: () {
+                                //누르면 인스타 개인 게시물처럼 보기
+                              },
+                              child:
                                   // Text('ddd'),
                                   Image.network(_imgUrl[index].url,
                                       fit: BoxFit.fill),
-                                ),
-                              ),
                             ),
-                          //),
-                        );
-                      },
-                itemCount: _imgUrl.length,
-                    )
-
-              //_imageGrid(),
-              ),
+                          ),
+                        ),
+                        //),
+                      );
+                    },
+                    itemCount: _imgUrl.length,
+                  ),
+                ),
         ]),
       ),
     );

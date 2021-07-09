@@ -24,8 +24,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_storage: ^ 4.0.0
   firebase_analytics: ^ 5.0.6
-  flutter_session: ^0.1.1
-
+  screenshot: ^0.3.0
 
 
 

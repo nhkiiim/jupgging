@@ -62,6 +62,9 @@ class _PersonalBoard extends State<PersonalBoard> {
   }
 
   Widget build(BuildContext context) {
+    //_imgUrl=List.from(_imgUrl.reversed);
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
     _imgUrl = List.from(_imgUrl.reversed);
     print('ddddddd' + _imgUrl[0].url);
     return Scaffold(
@@ -69,20 +72,25 @@ class _PersonalBoard extends State<PersonalBoard> {
         child: Column(children: [
           Container(
             color: const Color(0xFF88C26F),
-            width: MediaQuery.of(context).size.width,
-            height: 200,
+            width: screenWidth,
+            height: screenHeight*0.3,
             child: Column(
               children: [
                 Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(35, 35, 35, 20),
+                      padding: EdgeInsets.fromLTRB(
+                          (screenWidth*0.3-screenHeight*0.12)*0.7,
+                          screenHeight*0.07,
+                          (screenWidth*0.3-screenHeight*0.12)*0.5,
+                          screenHeight*0.04
+                      ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(55.0),
                         child: Image.asset(
                           'image/tree.jpg',
-                          width: 90,
-                          height: 90,
+                          width: screenHeight*0.12,
+                          height: screenHeight*0.12,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -91,13 +99,13 @@ class _PersonalBoard extends State<PersonalBoard> {
                         child: Column(
                       children: [
                         Padding(
-                            padding: EdgeInsets.fromLTRB(30, 50, 35, 20),
+                            padding: EdgeInsets.fromLTRB(screenWidth*0.1, screenHeight*0.02, 0, 0),
                             child: Text("Running",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white))),
                         Padding(
-                            padding: EdgeInsets.fromLTRB(35, 0, 35, 20),
+                            padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
                             child: Text("10km",
                                 style: TextStyle(color: Colors.white))),
                       ],
@@ -106,13 +114,13 @@ class _PersonalBoard extends State<PersonalBoard> {
                         child: Column(
                       children: [
                         Padding(
-                            padding: EdgeInsets.fromLTRB(20, 50, 35, 20),
+                            padding: EdgeInsets.fromLTRB(screenWidth*0.13, screenHeight*0.02, 0, 0),
                             child: Text("Time",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white))),
                         Padding(
-                            padding: EdgeInsets.fromLTRB(20, 0, 35, 20),
+                            padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
                             child: Text("14h",
                                 style: TextStyle(color: Colors.white))),
                       ],
@@ -120,27 +128,31 @@ class _PersonalBoard extends State<PersonalBoard> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(100, 0, 100, 0),
-                  child: RaisedButton(
-                    color: Colors.white,
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.settings,
-                          color: const Color(0xFF88C26F)
-                        ),
-                        Text('  setting',
-                            style: TextStyle(color: const Color(0xFF6DAC56)))
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: SizedBox(
+                    height: screenHeight*0.05,
+                    width: screenWidth*0.4,
+                    child: RaisedButton(
+                      color: Colors.white,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.settings,
+                            color: Colors.deepOrange,
+                          ),
+                          Text('  setting',
+                              style: TextStyle(color: Colors.deepOrange))
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+                      onPressed: () {
+                        reference.child(id).onChildAdded.listen((event) {
+                          user = User.fromSnapshot(event.snapshot);
+                          Navigator.of(context)
+                              .pushNamed('/mypage', arguments: user);
+                        });
+                      },
                     ),
-                    onPressed: () {
-                      reference.child(id).onChildAdded.listen((event) {
-                        user = User.fromSnapshot(event.snapshot);
-                        Navigator.of(context)
-                            .pushNamed('/mypage', arguments: user);
-                      });
-                    },
                   ),
                 ),
               ],

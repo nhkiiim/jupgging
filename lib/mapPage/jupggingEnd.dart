@@ -24,8 +24,6 @@ class JupggingEnd extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _JupggingEnd();
-  //run = ModalRoute.of(context)!.settings.arguments as RunningInfo;
-  //run = ModalRoute.of(context).settings.arguments;
   JupggingEnd({Key key, @required this.run, this.route, this.departure,this.distance}) : super(key: key);
 }
 
@@ -67,6 +65,7 @@ class _JupggingEnd extends State<JupggingEnd> {
 
   @override
   Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
     final info = ModalRoute.of(context).settings.arguments as JupggingEnd;
     points = info.route; //경로 polyline point
     start_point = info.departure; //시작점
@@ -85,10 +84,9 @@ class _JupggingEnd extends State<JupggingEnd> {
       body: Container(
         child: Column(
             children: [
-              //mapInfo((MediaQuery.of(context).size.height-50)*0.75),
               Container(  //지도 부분
                   color: Colors.white,
-                  height: (MediaQuery.of(context).size.height-50)*0.85,
+                  height: screenHeight*0.85,
                   child: Center(
                     child:_image == null ? googleMapUI():
                     Image.memory(sImg),
@@ -96,34 +94,37 @@ class _JupggingEnd extends State<JupggingEnd> {
                   )
               ),
               Container(  //달린 거리, 시간 나오는 부분
-                height: (MediaQuery.of(context).size.height-50)*0.15+50,
+                height: screenHeight*0.15,
                 color: Colors.white,
-                child: Text('$distance km $m 분 $s 초',textAlign: TextAlign.center,style:TextStyle(fontSize: 20)),  //시간 계산
+                child: Text('$distance km $m 분 $s 초',textAlign: TextAlign.center,style:TextStyle(fontSize: screenHeight*0.03)),  //시간 계산
               ),
 
             ]
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          screenshotController
-            .capture(delay: Duration(milliseconds: 10))
-            .then((Uint8List capturedImage) async {
-            ShowCapturedWidget(context, capturedImage);
-            //_uploadImageToStorage(capturedImage!);
-            setState(() {
-              //sImg=capturedImage;
-              print(sImg);
-            });
+      floatingActionButton: SizedBox(
+          height:screenHeight*0.15*0.4,
+          child:FloatingActionButton(
+            onPressed: () {
+              screenshotController
+                .capture(delay: Duration(milliseconds: 10))
+                .then((Uint8List capturedImage) async {
+                ShowCapturedWidget(context, capturedImage);
+                //_uploadImageToStorage(capturedImage!);
+                setState(() {
+                  //sImg=capturedImage;
+                  print(sImg);
+                });
 
-          }).catchError((onError) {
-            print(onError);
-          });
-          print(sImg);
-          _selectPhotoButton(context);
-        },
-        child: Icon(Icons.camera_alt),
-        backgroundColor: Colors.lightBlueAccent,
+              }).catchError((onError) {
+                print(onError);
+              });
+              print(sImg);
+              _selectPhotoButton(context);
+          },
+          child: Icon(Icons.camera_alt),
+          backgroundColor: Colors.lightBlueAccent,
+        )
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

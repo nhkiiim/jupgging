@@ -68,7 +68,7 @@ class _PersonalBoard extends State<PersonalBoard> {
       body: Container(
         child: Column(children: [
           Container(
-            color: Colors.deepOrange,
+            color: const Color(0xFF88C26F),
             width: MediaQuery.of(context).size.width,
             height: 200,
             child: Column(
@@ -127,10 +127,10 @@ class _PersonalBoard extends State<PersonalBoard> {
                       children: <Widget>[
                         Icon(
                           Icons.settings,
-                          color: Colors.deepOrange,
+                          color: const Color(0xFF88C26F)
                         ),
                         Text('  setting',
-                            style: TextStyle(color: Colors.deepOrange))
+                            style: TextStyle(color: const Color(0xFF6DAC56)))
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
                     ),

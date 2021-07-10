@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
-            primarySwatch: Colors.deepOrange,
+            primarySwatch: Colors.lightGreen,
           ),
           initialRoute: '/intro',
           routes: {

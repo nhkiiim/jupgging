@@ -55,8 +55,8 @@ class _PersonalBoard extends State<PersonalBoard> {
       crossAxisCount: 3,
       childAspectRatio: 1,
       children: [
-        Image.network(_imgUrl[0].mapUrl, fit: BoxFit.fill),
-        Image.network(_imgUrl[1].mapUrl, fit: BoxFit.fill)
+        Image.network(_imgUrl[0].url, fit: BoxFit.fill),
+        Image.network(_imgUrl[1].url, fit: BoxFit.fill)
       ],
     );
   }
@@ -66,7 +66,7 @@ class _PersonalBoard extends State<PersonalBoard> {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     _imgUrl = List.from(_imgUrl.reversed);
-    print('ddddddd' + _imgUrl[0].mapUrl);
+    print('ddddddd' + _imgUrl[0].url);
     return Scaffold(
       body: Container(
         child: Column(children: [
@@ -97,34 +97,34 @@ class _PersonalBoard extends State<PersonalBoard> {
                     ),
                     Container(
                         child: Column(
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(screenWidth*0.1, screenHeight*0.02, 0, 0),
-                                child: Text("Running",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white))),
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
-                                child: Text("10km",
-                                    style: TextStyle(color: Colors.white))),
-                          ],
-                        )),
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(screenWidth*0.1, screenHeight*0.02, 0, 0),
+                            child: Text("Running",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white))),
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
+                            child: Text("10km",
+                                style: TextStyle(color: Colors.white))),
+                      ],
+                    )),
                     Container(
                         child: Column(
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(screenWidth*0.13, screenHeight*0.02, 0, 0),
-                                child: Text("Time",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white))),
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
-                                child: Text("14h",
-                                    style: TextStyle(color: Colors.white))),
-                          ],
-                        )),
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(screenWidth*0.13, screenHeight*0.02, 0, 0),
+                            child: Text("Time",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white))),
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
+                            child: Text("14h",
+                                style: TextStyle(color: Colors.white))),
+                      ],
+                    )),
                   ],
                 ),
                 Padding(
@@ -161,35 +161,35 @@ class _PersonalBoard extends State<PersonalBoard> {
           _imgUrl.length == 0
               ? CircularProgressIndicator()
               : Expanded(
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Card(
-                  //child: GridTile(
-                  child: Container(
-                    //width: 200,
-                    //padding: EdgeInsets.only(top: 20, bottom: 20),
-                    child: SizedBox(
-                      child: GestureDetector(
-                        onTap: () {
-                          //누르면 인스타 개인 게시물처럼 보기
-                        },
-                        child:
-                        // Text('ddd'),
-                        Image.network(_imgUrl[index].mapUrl,
-                            fit: BoxFit.fill),
-                      ),
-                    ),
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        //child: GridTile(
+                        child: Container(
+                          //width: 200,
+                          //padding: EdgeInsets.only(top: 20, bottom: 20),
+                          child: SizedBox(
+                            child: GestureDetector(
+                              onTap: () {
+                                //누르면 인스타 개인 게시물처럼 보기
+                              },
+                              child:
+                                  // Text('ddd'),
+                                  Image.network(_imgUrl[index].url,
+                                      fit: BoxFit.fill),
+                            ),
+                          ),
+                        ),
+                        //),
+                      );
+                    },
+                    itemCount: _imgUrl.length,
                   ),
-                  //),
-                );
-              },
-              itemCount: _imgUrl.length,
-            ),
-          ),
+                ),
         ]),
       ),
     );

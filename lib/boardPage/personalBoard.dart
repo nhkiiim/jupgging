@@ -22,8 +22,8 @@ class _PersonalBoard extends State<PersonalBoard> {
   @override
   void initState() {
     super.initState();
-
     id = 'happy123';
+
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
     referenceImg = _database.reference().child('image');

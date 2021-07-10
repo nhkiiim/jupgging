@@ -10,46 +10,50 @@ import 'package:jupgging/mapPage/runningInfo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jupgging/provider/location_provider.dart';
 import 'dart:io';
-import 'dart:math' show cos, sqrt,asin;
+import 'dart:math' show cos, sqrt, asin;
 import 'package:provider/provider.dart';
 import 'dart:typed_data';
 import 'package:screenshot/screenshot.dart';
 
-
 class JupggingEnd extends StatefulWidget {
   final RunningInfo run;
+
   final List<LatLng> route;
   final LatLng departure;
   final double distance;
 
   @override
   State<StatefulWidget> createState() => _JupggingEnd();
-  JupggingEnd({Key key, @required this.run, this.route, this.departure,this.distance}) : super(key: key);
+
+  //run = ModalRoute.of(context)!.settings.arguments as RunningInfo;
+  //run = ModalRoute.of(context).settings.arguments;
+  JupggingEnd(
+      {Key key, @required this.run, this.route, this.departure, this.distance})
+      : super(key: key);
 }
 
 class _JupggingEnd extends State<JupggingEnd> {
-  File _image;
   Set<Polyline> lines = Set();
   List<LatLng> points = List();
-  Set<Marker>_markers = Set();
+  Set<Marker> _markers = Set();
 
-  double distance=0.0; //거리
+  double distance = 0.0; //거리
   LatLng start_point, end_point; //거리계산위한 시작점, 끝점받기
 
   FirebaseDatabase _database;
   DatabaseReference reference;
   String _databaseURL =
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  FirebaseStorage _firebaseStorage;
+
   String id;
+  String time;
 
-  Uint8List sImg;
+  Uint8List _image;//스토리지에 올릴 이미지
+  Uint8List _imageBytes; //지도 캡쳐
+  GoogleMapController _controller;
 
-  ScreenshotController screenshotController;
-
-  void Photo(ImageSource source) async {
-    File file = await ImagePicker.pickImage(source: source);
-    setState(() => _image = file);
-  }
+  //ScreenshotController screenshotController;
 
   @override
   void initState() {
@@ -58,9 +62,8 @@ class _JupggingEnd extends State<JupggingEnd> {
     id = 'happy123';
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('image');
-
-    screenshotController = ScreenshotController();
-
+    _firebaseStorage = FirebaseStorage.instance;
+    //screenshotController = ScreenshotController();
   }
 
   @override
@@ -69,117 +72,76 @@ class _JupggingEnd extends State<JupggingEnd> {
     final info = ModalRoute.of(context).settings.arguments as JupggingEnd;
     points = info.route; //경로 polyline point
     start_point = info.departure; //시작점
-    distance= info.distance; //거리
+    distance = info.distance; //거리
     var m = info.run.minutes;
     var s = info.run.seconds;
+
+    if (m >= 60) {
+      var h = m / 60;
+      m %= m;
+      time = h.toString().padLeft(2, '0') +
+          ":" +
+          m.toString().padLeft(2, '0') +
+          ":" +
+          s.toString().padLeft(2, '0');
+    } else {
+      time = "00:" +
+          m.toString().padLeft(2, '0') +
+          ":" +
+          s.toString().padLeft(2, '0');
+    }
 
     //시작위치 마커
     _markers.add(Marker(
         markerId: MarkerId("MyStartPosition"),
         position: LatLng(start_point.latitude, start_point.longitude),
-        infoWindow: InfoWindow(title:'Start Position',snippet:'Start Running!!')
-    ));
+        infoWindow:
+        InfoWindow(title: 'Start Position', snippet: 'Start Running!!')));
 
     return Scaffold(
       body: Container(
-        child: Column(
-            children: [
-              Container(  //지도 부분
-                  color: Colors.white,
-                  height: screenHeight*0.85,
-                  child: Center(
-                    child:_image == null ? googleMapUI():
-                    Image.memory(sImg),
-                    //Image.file(File(_image.path)),
-                  )
-              ),
-              Container(  //달린 거리, 시간 나오는 부분
-                height: screenHeight*0.15,
-                color: Colors.white,
-                child: Text('$distance km $m 분 $s 초',textAlign: TextAlign.center,style:TextStyle(fontSize: screenHeight*0.03)),  //시간 계산
-              ),
-
-            ]
-        ),
+        child: Column(children: [
+          //mapInfo((MediaQuery.of(context).size.height-50)*0.75),
+          Container(
+            //지도 부분
+              color: Colors.white,
+              height: screenHeight*0.85,
+              child: Center(
+                child: googleMapUI(),
+              )),
+          Container(
+            //달린 거리, 시간 나오는 부분
+            height: screenHeight*0.15,
+            color: Colors.white,
+            child: Text('$distance km $m 분 $s 초',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: screenHeight*0.03)), //시간 계산
+          ),
+        ]),
       ),
-      floatingActionButton: SizedBox(
-          height:screenHeight*0.15*0.4,
-          child:FloatingActionButton(
-            onPressed: () {
-              screenshotController
-                .capture(delay: Duration(milliseconds: 10))
-                .then((Uint8List capturedImage) async {
-                ShowCapturedWidget(context, capturedImage);
-                //_uploadImageToStorage(capturedImage!);
-                setState(() {
-                  //sImg=capturedImage;
-                  print(sImg);
-                });
-
-              }).catchError((onError) {
-                print(onError);
-              });
-              print(sImg);
-              _selectPhotoButton(context);
-          },
-          child: Icon(Icons.camera_alt),
-          backgroundColor: Colors.lightBlueAccent,
-        )
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final imageBytes = await _controller.takeSnapshot();
+          setState(() {
+            _imageBytes = imageBytes;
+          });
+          //지도캡처, 거리, 시간 올리기
+          _uploadImageToStorage(_imageBytes);
+          //_selectPhotoButton(context);
+          Navigator.of(context).pushReplacementNamed('/personal');
+        },
+        child: Icon(Icons.arrow_forward_rounded),
+        backgroundColor: Colors.lightBlueAccent,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  Future<dynamic> ShowCapturedWidget(
-      BuildContext context, Uint8List capturedImage) {
-    print(capturedImage);
-    return showDialog(
-      useSafeArea: false,
-      context: context,
-      builder: (context) => Scaffold(
-        appBar: AppBar(
-          title: Text("Captured widget screenshot"),
-        ),
-        body: Center(
-            child: capturedImage != null
-                ? Image.memory(capturedImage)
-                : Container(child:Text('ddd'))),
-      ),
-    );
-  }
-
-  void _selectPhotoButton(context){
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc){
-          return Container(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(Icons.photo_camera),
-                  title: Text("사진 찍기"),
-                  onTap: () => Photo(ImageSource.camera),
-                ),
-                ListTile(
-                  leading: Icon(Icons.photo),
-                  title: Text("앨범에서 가져오기"),
-                  onTap: () => _uploadImageToStorage(ImageSource .gallery).then((_){
-                    Navigator.of(context).pushReplacementNamed('/personal');
-                  }),
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
-  Widget googleMapUI () {
+  Widget googleMapUI() {
     return Consumer<LocationProvider>(builder: ( //changeNotifer가 변경될때마다 호촐
         consumerContext,
         model,
-        child
-        ) {
-
+        child) {
       lines.add(
         Polyline(
           points: points,
@@ -188,73 +150,56 @@ class _JupggingEnd extends State<JupggingEnd> {
         ),
       );
 
-      if(model.locationPosition != null){
-
+      if (model.locationPosition != null) {
         end_point = model.locationPosition; //마지막 목적지 위치
-        _markers.add(Marker( //도착위치 마커
+        _markers.add(Marker(
+          //도착위치 마커
             markerId: MarkerId("MyEndPosition"),
             position: LatLng(end_point.latitude, end_point.longitude),
-            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-            infoWindow: InfoWindow(title:'End Position',snippet:'Finish Running!!')
-        ));
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueGreen),
+            infoWindow: InfoWindow(
+                title: 'End Position', snippet: 'Finish Running!!')));
 
-        return
-          //Screenshot(
-          //controller: screenshotController,
-          //child:
-          Column(
-            children:[
-              Expanded(
-                  child: GoogleMap(
-                    mapType: MapType.normal,
-                    initialCameraPosition: CameraPosition(
-                        target: model.locationPosition,
-                        zoom: 16
-                    ),
-                    markers: _markers,
-                    polylines: lines,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: true,
-                    onMapCreated: (GoogleMapController controller) async {
-                      final uin8list = await controller.takeSnapshot();
-                      print(uin8list);
-                      setState(() {
-                        sImg=uin8list;
-                      });
-                    },
-                  )
-              )
-            ],
-          );
-        //);
+        return Column(
+          children: [
+            Expanded(
+                child: GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition:
+                  CameraPosition(target: model.locationPosition, zoom: 16),
+                  markers: _markers,
+                  polylines: lines,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  onMapCreated: (GoogleMapController controller) async {
+                    _controller = controller;
+                  },
+                ))
+          ],
+        );
       }
 
       return Container(
-        child : Center(
+        child: Center(
           child: CircularProgressIndicator(),
         ),
       );
     });
   }
 
-
-  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  String _profileImageURL = "";
-
-  Future <void> _uploadImageToStorage(ImageSource source) async {
-    File image = await ImagePicker.pickImage(source: source);
-
-    if (image == null) return;
+  Future<void> _uploadImageToStorage(Uint8List image) async {
     setState(() {
       _image = image;
     });
 
-    // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
-    StorageReference storageReference =
-    _firebaseStorage.ref().child("map/${DateTime.now().millisecondsSinceEpoch}.png");
+    // 프로필 사진을 업로드할 경로와 파일명을 정의.
+    StorageReference storageReference = _firebaseStorage
+        .ref()
+        .child("map/${DateTime.now().millisecondsSinceEpoch}.png");
 
     // 파일 업로드
-    StorageUploadTask storageUploadTask = storageReference.putFile(_image);
+    StorageUploadTask storageUploadTask = storageReference.putData(_image);
 
     // 파일 업로드 완료까지 대기
     await storageUploadTask.onComplete;
@@ -262,21 +207,15 @@ class _JupggingEnd extends State<JupggingEnd> {
     // 업로드한 사진의 URL 획득
     String downloadURL = await storageReference.getDownloadURL();
 
-    // 업로드된 사진의 URL을 페이지에 반영
-    setState(() {
-      _profileImageURL = downloadURL;
-    });
-
-    //url을 db에 저장
+    //url을 db에 저장----------------------------
     reference
-      .child(id)
-      .push()
-      .set(ImageURL(downloadURL,DateTime.now().toIso8601String()).toJson())
-      .then((_) {
-        print('url 저장완료');
+        .child(id)
+        .push()
+        .set(ImageURL(downloadURL, "", distance.toString(), time, "",
+        DateTime.now().toIso8601String())
+        .toJson())
+        .then((_) {
+      print('url 저장완료');
     });
   }
-
-
 }
-

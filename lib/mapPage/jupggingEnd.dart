@@ -218,7 +218,6 @@ class _JupggingEnd extends State<JupggingEnd> {
                       setState(() {
                         sImg=uin8list;
                       });
-
                     },
                   )
               )

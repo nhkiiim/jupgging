@@ -144,7 +144,7 @@ class _SignPage extends State<SignPage> {
                     '회원가입',
                     style: TextStyle(color: Colors.white),
                   ),
-                  color: Colors.deepOrange,
+                  color: const Color(0xFF88C26F),
                 )
               ],
               mainAxisAlignment: MainAxisAlignment.center,

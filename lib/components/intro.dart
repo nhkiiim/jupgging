@@ -39,7 +39,7 @@ class _IntroPage extends State<IntroPage> {
                   style: TextStyle(
                       fontFamily: 'Pacifico',
                       fontSize: 40,
-                      color: Colors.deepOrange)),
+                      color: const Color(0xFF88C26F))),
             ],
           ),
         ),

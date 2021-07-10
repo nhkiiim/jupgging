@@ -163,7 +163,9 @@ class _JupggingEnd extends State<JupggingEnd> {
                 ListTile(
                   leading: Icon(Icons.photo),
                   title: Text("앨범에서 가져오기"),
-                  onTap: () => _uploadImageToStorage(ImageSource .gallery),
+                  onTap: () => _uploadImageToStorage(ImageSource .gallery).then((_){
+                    Navigator.of(context).pushReplacementNamed('/personal');
+                  }),
                 ),
               ],
             ),
@@ -239,7 +241,7 @@ class _JupggingEnd extends State<JupggingEnd> {
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = "";
 
-  void _uploadImageToStorage(ImageSource source) async {
+  Future <void> _uploadImageToStorage(ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
 
     if (image == null) return;

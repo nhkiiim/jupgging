@@ -28,9 +28,6 @@ class _PersonalBoard extends State<PersonalBoard> {
     reference = _database.reference().child('user');
     referenceImg = _database.reference().child('image');
 
-    // ImageDownload().then((value)=>{
-    //   setState(() {_imgUrl = value;})
-    // });
     referenceImg.child(id).onChildAdded.listen((event) {
       print(event.snapshot.value.toString());
       setState(() {
@@ -39,31 +36,8 @@ class _PersonalBoard extends State<PersonalBoard> {
     });
   }
 
-  // Future<List> ImageDownload() async{
-  //   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  //   StorageReference storageReference = _firebaseStorage.ref().child("map/1625230581747.png");
-  //   String downloadImg = await storageReference.getDownloadURL();
-  //   StorageReference storageReference1 = _firebaseStorage.ref().child("map/1625239722429.png");
-  //   String downloadImg1 = await storageReference1.getDownloadURL();
-  //   print(downloadImg1);
-  //   List a=[downloadImg,downloadImg1];
-  //   return a;
-  // }
-  GridView _imageGrid() {
-    return GridView.count(
-      shrinkWrap: true,
-      crossAxisCount: 3,
-      childAspectRatio: 1,
-      children: [
-        Image.network(_imgUrl[0].url, fit: BoxFit.fill),
-        Image.network(_imgUrl[1].url, fit: BoxFit.fill)
-      ],
-    );
-  }
-
   Widget build(BuildContext context) {
     _imgUrl = List.from(_imgUrl.reversed);
-    print('ddddddd' + _imgUrl[0].url);
     return Scaffold(
       body: Container(
         child: Column(children: [
@@ -166,8 +140,9 @@ class _PersonalBoard extends State<PersonalBoard> {
                                 //누르면 인스타 개인 게시물처럼 보기
                               },
                               child:
-                                  // Text('ddd'),
-                                  Image.network(_imgUrl[index].url,
+                                  //Text(_imgUrl[index].mapUrl),
+
+                                  Image.network(_imgUrl[index].mapUrl,
                                       fit: BoxFit.fill),
                             ),
                           ),

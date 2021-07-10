@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:jupgging/components/bottomBar.dart';
 import 'package:jupgging/components/intro.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +12,7 @@ import 'package:jupgging/mapPage/jupggingEnd.dart';
 import 'package:jupgging/mapPage/firstPage.dart';
 
 import 'boardPage/personalBoard.dart';
+import 'mapPage/jupggingAdd.dart';
 
 void main() {
   runApp(MyApp());
@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
             '/main': (context) => BottomBar(),
             '/main/info': (context) => JupggingInfo(),
             '/main/info/end': (context) => JupggingEnd(),
+            '/add': (context) => JupggingAdd(),
             '/mypage': (context) => MyPage(),
             '/pwChange': (context) => PwChangePage(),
             '/personal': (context) => PersonalBoard(),

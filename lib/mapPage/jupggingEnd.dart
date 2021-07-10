@@ -128,7 +128,7 @@ class _JupggingEnd extends State<JupggingEnd> {
           //지도캡처, 거리, 시간 올리기
           _uploadImageToStorage(_imageBytes);
           //_selectPhotoButton(context);
-          Navigator.of(context).pushReplacementNamed('/personal');
+          Navigator.of(context).pushReplacementNamed('/add');
         },
         child: Icon(Icons.arrow_forward_rounded),
         backgroundColor: Colors.lightBlueAccent,

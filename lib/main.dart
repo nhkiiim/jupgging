@@ -12,6 +12,8 @@ import 'package:jupgging/mapPage/jupggingInfo.dart';
 import 'package:jupgging/mapPage/jupggingEnd.dart';
 import 'package:jupgging/mapPage/firstPage.dart';
 
+import 'boardPage/personalBoard.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
-            primarySwatch: Colors.deepOrange,
+            primarySwatch: Colors.lightGreen,
           ),
           initialRoute: '/intro',
           routes: {
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
             '/main/info/end': (context) => JupggingEnd(),
             '/mypage': (context) => MyPage(),
             '/pwChange': (context) => PwChangePage(),
+            '/personal': (context) => PersonalBoard(),
           }),
       );
   }

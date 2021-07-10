@@ -19,7 +19,7 @@ class _PublicBoard extends State<PublicBoard>{
            Padding(
              padding: const EdgeInsets.fromLTRB(0,25,0,0),
              child: Container(
-               color:Colors.deepOrange,
+               color:const Color(0xFF88C26F),
                height:50,
                child: Row(
                    children: [

@@ -24,6 +24,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_storage: ^ 4.0.0
   firebase_analytics: ^ 5.0.6
+  screenshot: ^0.3.0
 
 
 

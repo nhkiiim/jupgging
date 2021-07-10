@@ -72,7 +72,7 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
                   },
                   child: Icon(
                     Icons.account_circle_rounded,
-                    color: Colors.deepOrangeAccent,
+                    color: const Color(0xFF88C26F),
                     size: 80,
                   ),
                 ),
@@ -80,11 +80,12 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
                   height: 100,
                   child: Center(
                     child: Text(
-                      'Jubgging',
+                      'Jupgging',
                       style: TextStyle(
                           fontFamily: 'Pacifico',
                           fontSize: 30,
-                          color: Colors.deepOrange),
+                          color:const Color(0xFF88C26F)
+                      ),
                     ),
                   ),
                 ),

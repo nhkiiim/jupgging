@@ -13,17 +13,17 @@ import 'dart:io';
 import 'dart:math' show cos, sqrt,asin;
 import 'package:provider/provider.dart';
 import 'dart:typed_data';
+import 'package:screenshot/screenshot.dart';
+
 
 class JupggingEnd extends StatefulWidget {
-  final RunningInfo run ;
+  final RunningInfo run;
   final List<LatLng> route;
   final LatLng departure;
   final double distance;
 
   @override
   State<StatefulWidget> createState() => _JupggingEnd();
-  //run = ModalRoute.of(context)!.settings.arguments as RunningInfo;
-  //run = ModalRoute.of(context).settings.arguments;
   JupggingEnd({Key key, @required this.run, this.route, this.departure,this.distance}) : super(key: key);
 }
 
@@ -42,6 +42,9 @@ class _JupggingEnd extends State<JupggingEnd> {
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
   String id;
 
+  Uint8List sImg;
+
+  ScreenshotController screenshotController;
 
   void Photo(ImageSource source) async {
     File file = await ImagePicker.pickImage(source: source);
@@ -56,10 +59,13 @@ class _JupggingEnd extends State<JupggingEnd> {
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('image');
 
+    screenshotController = ScreenshotController();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
     final info = ModalRoute.of(context).settings.arguments as JupggingEnd;
     points = info.route; //경로 polyline point
     start_point = info.departure; //시작점
@@ -78,30 +84,67 @@ class _JupggingEnd extends State<JupggingEnd> {
       body: Container(
         child: Column(
             children: [
-              //mapInfo((MediaQuery.of(context).size.height-50)*0.75),
               Container(  //지도 부분
                   color: Colors.white,
-                  height: (MediaQuery.of(context).size.height-50)*0.85,
+                  height: screenHeight*0.85,
                   child: Center(
-                    child:_image == null ? googleMapUI(): Image.file(File(_image.path)),
+                    child:_image == null ? googleMapUI():
+                    Image.memory(sImg),
+                    //Image.file(File(_image.path)),
                   )
               ),
               Container(  //달린 거리, 시간 나오는 부분
-                height: (MediaQuery.of(context).size.height-50)*0.15+50,
+                height: screenHeight*0.15,
                 color: Colors.white,
-                child: Text('$distance km $m 분 $s 초',textAlign: TextAlign.center,style:TextStyle(fontSize: 20)),  //시간 계산
+                child: Text('$distance km $m 분 $s 초',textAlign: TextAlign.center,style:TextStyle(fontSize: screenHeight*0.03)),  //시간 계산
               ),
+
             ]
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _selectPhotoButton(context);
-        },
-        child: Icon(Icons.camera_alt),
-        backgroundColor: Colors.lightBlueAccent,
+      floatingActionButton: SizedBox(
+          height:screenHeight*0.15*0.4,
+          child:FloatingActionButton(
+            onPressed: () {
+              screenshotController
+                .capture(delay: Duration(milliseconds: 10))
+                .then((Uint8List capturedImage) async {
+                ShowCapturedWidget(context, capturedImage);
+                //_uploadImageToStorage(capturedImage!);
+                setState(() {
+                  //sImg=capturedImage;
+                  print(sImg);
+                });
+
+              }).catchError((onError) {
+                print(onError);
+              });
+              print(sImg);
+              _selectPhotoButton(context);
+          },
+          child: Icon(Icons.camera_alt),
+          backgroundColor: Colors.lightBlueAccent,
+        )
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  Future<dynamic> ShowCapturedWidget(
+      BuildContext context, Uint8List capturedImage) {
+    print(capturedImage);
+    return showDialog(
+      useSafeArea: false,
+      context: context,
+      builder: (context) => Scaffold(
+        appBar: AppBar(
+          title: Text("Captured widget screenshot"),
+        ),
+        body: Center(
+            child: capturedImage != null
+                ? Image.memory(capturedImage)
+                : Container(child:Text('ddd'))),
+      ),
     );
   }
 
@@ -120,7 +163,9 @@ class _JupggingEnd extends State<JupggingEnd> {
                 ListTile(
                   leading: Icon(Icons.photo),
                   title: Text("앨범에서 가져오기"),
-                  onTap: () => _uploadImageToStorage(ImageSource .gallery),
+                  onTap: () => _uploadImageToStorage(ImageSource .gallery).then((_){
+                    Navigator.of(context).pushReplacementNamed('/personal');
+                  }),
                 ),
               ],
             ),
@@ -153,25 +198,35 @@ class _JupggingEnd extends State<JupggingEnd> {
             infoWindow: InfoWindow(title:'End Position',snippet:'Finish Running!!')
         ));
 
-        return Column(
-          children:[
-            Expanded(
-                child: GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: CameraPosition(
-                      target: model.locationPosition,
-                      zoom: 16
-                  ),
-                  markers: _markers,
-                  polylines: lines,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  onMapCreated: (GoogleMapController controller){
-                  },
-                )
-            )
-          ],
-        );
+        return
+          //Screenshot(
+          //controller: screenshotController,
+          //child:
+          Column(
+            children:[
+              Expanded(
+                  child: GoogleMap(
+                    mapType: MapType.normal,
+                    initialCameraPosition: CameraPosition(
+                        target: model.locationPosition,
+                        zoom: 16
+                    ),
+                    markers: _markers,
+                    polylines: lines,
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    onMapCreated: (GoogleMapController controller) async {
+                      final uin8list = await controller.takeSnapshot();
+                      print(uin8list);
+                      setState(() {
+                        sImg=uin8list;
+                      });
+                    },
+                  )
+              )
+            ],
+          );
+        //);
       }
 
       return Container(
@@ -181,10 +236,12 @@ class _JupggingEnd extends State<JupggingEnd> {
       );
     });
   }
+
+
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL = "";
 
-  void _uploadImageToStorage(ImageSource source) async {
+  Future <void> _uploadImageToStorage(ImageSource source) async {
     File image = await ImagePicker.pickImage(source: source);
 
     if (image == null) return;

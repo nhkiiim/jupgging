@@ -12,6 +12,7 @@ import 'package:jupgging/mapPage/jupggingEnd.dart';
 import 'package:jupgging/mapPage/firstPage.dart';
 
 import 'boardPage/personalBoard.dart';
+import 'components/bottomBar2.dart';
 import 'mapPage/jupggingAdd.dart';
 
 void main() {
@@ -22,10 +23,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ //하나의 데이터를 여러페이지에 공유가능
+      providers: [
         ChangeNotifierProvider(
-          create:(context)=> LocationProvider(),//Location Provider 클래스 데이터 변하면 알려줌
-          child: FirstPage(),//firstmappage가 위치데이터에 접근가능
+          create:(context)=> LocationProvider(),
+          child: FirstPage(),
         ),
         ChangeNotifierProvider(
           create:(context)=> LocationProvider(),
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
             '/login': (context) => LoginPage(),
             '/sign': (context) => SignPage(),
             '/main': (context) => BottomBar(),
+            '/main/personal': (context) => BottomBar2(),
             '/main/info': (context) => JupggingInfo(),
             '/main/info/end': (context) => JupggingEnd(),
             '/add': (context) => JupggingAdd(),

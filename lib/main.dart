@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jupgging/components/bottomBar.dart';
 import 'package:jupgging/components/intro.dart';
+import 'package:jupgging/boardPage/personalDetail.dart';
 import 'package:provider/provider.dart';
 import 'package:jupgging/provider/location_provider.dart';
 import 'package:jupgging/userPage/signPage.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
             '/mypage': (context) => MyPage(),
             '/pwChange': (context) => PwChangePage(),
             '/personal': (context) => PersonalBoard(),
+            '/detail': (context) => PersonalDetail(),
           }),
       );
   }

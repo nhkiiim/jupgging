@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:jupgging/boardPage/personalDetail.dart';
 import 'package:jupgging/models/user.dart';
 import 'package:jupgging/models/image.dart';
 
@@ -153,6 +154,9 @@ class _PersonalBoard extends State<PersonalBoard> {
                       child: GestureDetector(
                         onTap: () {
                           //누르면 인스타 개인 게시물처럼 보기
+                          Navigator.of(context)
+                              .pushNamed('/detail',
+                              arguments: _imgUrl[index]);
                         },
                         child:
                         //Text(_imgUrl[index].mapUrl),

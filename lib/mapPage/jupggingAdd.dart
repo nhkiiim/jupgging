@@ -92,7 +92,7 @@ class _JupggingAdd extends State<JupggingAdd> {
                             child : ElevatedButton(
                               onPressed: () {
                                 _uploadImageToStorage(_image).then((value){
-                                Navigator.of(context).pushReplacementNamed('/personal');
+                                Navigator.of(context).pushReplacementNamed('/main/personal');
                                 });
                                 },
                               child: Text('upload'),

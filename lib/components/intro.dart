@@ -30,13 +30,9 @@ class _IntroPage extends State<IntroPage> {
       body: Container(
         color: const Color(0xFF88C26F),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset('image/logo_green1.jpg',
-                  width: 400),
-
-            ],
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0,0),
+            child : Image.asset('image/logo_green1.jpg', width: 400),
           ),
         ),
       ),

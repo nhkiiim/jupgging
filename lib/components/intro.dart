@@ -35,7 +35,7 @@ class _IntroPage extends State<IntroPage> {
             children: <Widget>[
               Image.asset('image/intro.png',
                   width: 200, height: 200, fit: BoxFit.scaleDown),
-              Text('Jubgging',
+              Text('Jupgging',
                   style: TextStyle(
                       fontFamily: 'Pacifico',
                       fontSize: 40,

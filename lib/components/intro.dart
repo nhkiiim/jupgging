@@ -28,18 +28,14 @@ class _IntroPage extends State<IntroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        color: const Color(0xFF88C26F),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset('image/intro.png',
-                  width: 200, height: 200, fit: BoxFit.scaleDown),
-              Text('Jupgging',
-                  style: TextStyle(
-                      fontFamily: 'Pacifico',
-                      fontSize: 40,
-                      color: const Color(0xFF88C26F))),
+              Image.asset('image/logo_green1.jpg',
+                  width: 400),
+
             ],
           ),
         ),

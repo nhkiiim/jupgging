@@ -40,7 +40,10 @@ class _PwChangePage extends State<PwChangePage> {
     id = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text('비밀번호 변경'),
+        title: Text(
+          '비밀번호 변경',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: <Widget>[
           FlatButton(
             onPressed: () {
@@ -59,7 +62,8 @@ class _PwChangePage extends State<PwChangePage> {
                         _newPwCheckTextController.value.text) {
                       if (_newPwTextController.value.text.length >= 6 &&
                           _newPwCheckTextController.value.text.length >= 6) {
-                        var bytes1 = utf8.encode(_newPwTextController.value.text);
+                        var bytes1 =
+                            utf8.encode(_newPwTextController.value.text);
                         var digest1 = sha1.convert(bytes1);
                         User upUser = User(user.name, id, digest1.toString(),
                             user.email, user.createTime);

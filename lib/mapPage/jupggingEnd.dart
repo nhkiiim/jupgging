@@ -52,7 +52,7 @@ class _JupggingEnd extends State<JupggingEnd> {
   Uint8List _image;//스토리지에 올릴 이미지
   Uint8List _imageBytes; //지도 캡쳐
   GoogleMapController _controller;
-
+  ImageURL imageURL;
   //ScreenshotController screenshotController;
 
   @override
@@ -126,8 +126,11 @@ class _JupggingEnd extends State<JupggingEnd> {
           });
           //지도캡처, 거리, 시간 올리기
           _uploadImageToStorage(_imageBytes);
+<<<<<<< Updated upstream
           //_selectPhotoButton(context);
           //다음페이지로 넘어가기
+=======
+>>>>>>> Stashed changes
         },
         child: Icon(Icons.arrow_forward_rounded),
         backgroundColor: Colors.lightBlueAccent,
@@ -215,6 +218,20 @@ class _JupggingEnd extends State<JupggingEnd> {
             .toJson())
         .then((_) {
       print('url 저장완료');
+
+      reference
+        .child(id)
+        .child("key")
+        .orderByChild("mapUrl")
+        .equalTo(downloadURL)
+        .onChildAdded.listen((event) {
+          imageURL = ImageURL.fromSnapshot(event.snapshot);
+          print(imageURL);
+      });
+      //print(imageURL);
+      //print(imageURL.key);
+      print(imageURL);
+      Navigator.of(context).pushReplacementNamed('/add', arguments: imageURL);
     });
   }
 }

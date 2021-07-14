@@ -23,25 +23,42 @@ class _PesonalDetail extends State<PersonalDetail>{
     return Scaffold(
         body:Container(
           child: Padding(
-              padding: EdgeInsets.fromLTRB(0,screenHeight*0.04,0,0),
+              padding: EdgeInsets.fromLTRB(0,screenHeight*0.035,0,0),
               child: Column(
                 children:[
                     Container(
-                        height:screenHeight*0.1,
+                        height:screenHeight*0.075,
+                        color: const Color(0xFF88C26F),
                         child: Row(
                             children: [
                               IconButton(icon: Icon(Icons.arrow_back_outlined),
                                   onPressed: (){ Navigator.of(context).pop();}
                                   ),
+                              Container(
+                                margin:EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(55.0),
+                                  child: Image.asset(
+                                    'image/tree.jpg',
+                                    width: 35,
+                                    height: 35,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(screenWidth*0.02, 0, 0, 0),
-                                child: Text("${(imgUrl.createTime).substring(0,10)}", style: TextStyle(fontSize: screenHeight*0.04)),
-                              )
+                                child: Text("${(imgUrl.createTime).substring(0,10)}",
+                                    style: TextStyle(color: Colors.white,
+                                        fontSize: screenHeight*0.025,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+
                             ]
                         )
                     ),
                   Padding(
-                      padding: EdgeInsets.fromLTRB(screenWidth*0.05, screenHeight*0.02, screenWidth*0.05, screenHeight*0.05),
+                      padding: EdgeInsets.fromLTRB(screenWidth*0.05, screenHeight*0.02, screenWidth*0.05, screenHeight*0.01),
                       child: Container(
                           child : ImageSlideshow(
                               height: screenHeight*0.5,
@@ -59,17 +76,43 @@ class _PesonalDetail extends State<PersonalDetail>{
                   Container(
                     child: Column(
                       children: [
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: Text('${imgUrl.distance}km ${imgUrl.time}', style: TextStyle(fontSize: screenHeight*0.04)),
+
+                        Row(
+                          children: [
+                            Padding(
+                              padding:EdgeInsets.fromLTRB(screenWidth*0.25, screenHeight*0.02,0,0),
+                              child:Text('distance'),
+                            ),
+                            Padding(
+                              padding:EdgeInsets.fromLTRB(screenWidth*0.25,screenHeight*0.02,0,0),
+                              child:Text('time'),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(screenWidth*0.2, screenHeight*0.01, 0, 0),
+                              child: Text(' ${imgUrl.distance} km',
+                                  style: TextStyle(fontSize: screenHeight*0.03,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.fromLTRB(screenWidth*0.2, screenHeight*0.01, 0, 0),
+                                child: Text('${imgUrl.time}',
+                                    style: TextStyle(fontSize: screenHeight*0.03,
+                                        fontWeight: FontWeight.bold
+                                    )),
+                            ),
+                          ],
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, screenHeight*0.04, 0, 0),
+                          padding: EdgeInsets.fromLTRB(0, screenHeight*0.03, 0, 0),
                           child: Container(
                             color: Color(0xFFC5E99B),
-                            height: screenHeight*0.15,
-                            width: screenWidth*0.8,
-                            child: Text('${imgUrl.comment}', style: TextStyle(fontSize: screenHeight*0.03)),
+                            height: screenHeight*0.2,
+                            width: screenWidth*0.9,
+                            child: Text('${imgUrl.comment}', style: TextStyle(fontSize: screenHeight*0.02)),
                           ),
                         ),
                       ],

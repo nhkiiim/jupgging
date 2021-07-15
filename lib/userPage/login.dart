@@ -146,8 +146,7 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
                                         if (user.pw == digest.toString()) {
                                           Navigator.of(context)
                                               .pushReplacementNamed('/main',
-                                                  arguments:
-                                                      _idTextController.value.text);
+                                                  arguments:_idTextController.value.text);
                                         } else {
                                           makeDialog('비밀번호가 틀립니다');
                                         }

@@ -15,7 +15,7 @@ class _PersonalBoard extends State<PersonalBoard> {
   String id;
   User user;
   FirebaseDatabase _database;
-  DatabaseReference reference;
+  DatabaseReference reference;/
   DatabaseReference referenceImg;
   String _databaseURL =
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';

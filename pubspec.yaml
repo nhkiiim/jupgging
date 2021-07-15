@@ -39,6 +39,7 @@ flutter:
     - image/intro.png
     - image/flutter_logo.png
     - image/tree.jpg
+    - image/logo_green1.jpg
   fonts:
     - family: Pacifico
       fonts:

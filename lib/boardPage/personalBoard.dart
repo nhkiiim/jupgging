@@ -136,9 +136,7 @@ class _PersonalBoard extends State<PersonalBoard> {
               ],
             ),
           ),
-          _imgUrl.length == 0
-              ? CircularProgressIndicator()
-              : Expanded(
+          _imgUrl.length == 0 ? CircularProgressIndicator() : Expanded(
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3),

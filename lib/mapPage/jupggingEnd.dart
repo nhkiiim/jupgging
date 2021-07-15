@@ -41,13 +41,15 @@ class _JupggingEnd extends State<JupggingEnd> {
   LatLng start_point, end_point; //거리계산위한 시작점, 끝점받기
 
   FirebaseDatabase _database;
-  DatabaseReference reference;
+  DatabaseReference referenceImg;
   String _databaseURL =
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
   FirebaseStorage _firebaseStorage;
 
   String id;
   String time;
+
+  ImageURL imageURL; //새로 만든 모델
 
   Uint8List _image;//스토리지에 올릴 이미지
   Uint8List _imageBytes; //지도 캡쳐
@@ -61,7 +63,7 @@ class _JupggingEnd extends State<JupggingEnd> {
 
     id = 'happy123';
     _database = FirebaseDatabase(databaseURL: _databaseURL);
-    reference = _database.reference().child('image');
+    referenceImg = _database.reference().child('image');
     _firebaseStorage = FirebaseStorage.instance;
     //screenshotController = ScreenshotController();
   }
@@ -128,7 +130,7 @@ class _JupggingEnd extends State<JupggingEnd> {
           //지도캡처, 거리, 시간 올리기
           _uploadImageToStorage(_imageBytes);
           //_selectPhotoButton(context);
-          Navigator.of(context).pushReplacementNamed('/add');
+          //Navigator.of(context).pushReplacementNamed('/add');
         },
         child: Icon(Icons.arrow_forward_rounded),
         backgroundColor: Colors.lightBlueAccent,
@@ -207,8 +209,8 @@ class _JupggingEnd extends State<JupggingEnd> {
     // 업로드한 사진의 URL 획득
     String downloadURL = await storageReference.getDownloadURL();
 
-    //url을 db에 저장----------------------------
-    reference
+    //mapUrl, distance, time, createTime를 db에 저장----------------------------
+    referenceImg
         .child(id)
         .push()
         .set(ImageURL(downloadURL, "", distance.toString(), time, "",
@@ -216,6 +218,21 @@ class _JupggingEnd extends State<JupggingEnd> {
         .toJson())
         .then((_) {
       print('url 저장완료');
+
+      referenceImg
+          .child(id)
+          .orderByChild("mapUrl")
+          .equalTo(downloadURL)
+          .onChildAdded.listen((event) async {
+        imageURL = await ImageURL.fromSnapshot(event.snapshot);
+        print(imageURL.key);
+        Navigator.of(context).pushReplacementNamed('/add', arguments: imageURL);
+      });
+      //print(imageURL);
+      //print(imageURL.key);
+      //print(imageURL);
+
+
     });
   }
 }

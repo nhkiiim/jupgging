@@ -27,21 +27,23 @@ class _PublicBoard extends State<PublicBoard> {
     reference = _database.reference().child('user');
     referenceImg = _database.reference().child('image');
 
-    referenceImg.child(id).onChildAdded.listen((event) {
+    referenceImg.orderByChild("createTime").onChildAdded.listen((event) {
       print(event.snapshot.value.toString());
       setState(() {
         imglist.add(ImageURL.fromSnapshot(event.snapshot));
       });
     });
+
+    print(imglist);
   }
 
   Widget build(BuildContext context) {
+    var w = MediaQuery.of(context).size.width;
+    var h = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
       child: Column(children: [
-        imglist.length == 0
-            ? CircularProgressIndicator()
-            : Expanded(
+        if (imglist.length == 0) CircularProgressIndicator() else Expanded(
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1),
@@ -59,7 +61,7 @@ class _PublicBoard extends State<PublicBoard> {
                                 height: 50,
                                 child: Row(children: [
                                   Container(
-                                    margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                    margin: EdgeInsets.fromLTRB(w*0.03, 0, 0, 0),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(55.0),
                                       child: Image.asset(
@@ -72,19 +74,37 @@ class _PublicBoard extends State<PublicBoard> {
                                   ),
                                   Padding(
                                     padding:
-                                        EdgeInsets.fromLTRB(10, 15, 35, 20),
-                                    child: Text("nahye_on",
+                                        EdgeInsets.fromLTRB(w*0.03, h*0.001, 0, 0),
+                                    child: Text(id,
                                         style: TextStyle(
                                           color: Colors.white,
+                                            fontWeight: FontWeight.bold
                                         )),
-                                  )
+                                  ),
                                 ])),
                           ),
                           GestureDetector(
                             onTap: () {
                               Navigator.of(context).pushNamed('/detail', arguments: imglist[index]);
                             },
-                              child: Image.network(imglist[index].mapUrl,height:350, width:500, fit: BoxFit.cover),
+                              child: Column(
+                                children : [
+                                  //Image.network(imglist[index].mapUrl,height:h*0.45, width:w, fit: BoxFit.cover),
+                                 Padding(
+                                   padding: EdgeInsets.fromLTRB(w*0.03, h*0.02, 0, 0),
+                                   child: Row(
+                                    children:[
+                                      Text( id, style: TextStyle(fontWeight: FontWeight.bold)),
+                                      Text("    코멘트 자리"),
+                                      Padding(
+                                          padding: EdgeInsets.fromLTRB(0, h*0.001, w*0.03,0 ),
+
+                                      ),
+                                    ]
+                                   ),
+                                 ),
+                                ]
+                              ),
                           )
                         ],
                       ),

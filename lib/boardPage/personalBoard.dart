@@ -19,7 +19,7 @@ class _PersonalBoard extends State<PersonalBoard> {
   DatabaseReference referenceImg;
   String _databaseURL =
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
-  String totalTime;
+  int totalHour,totalMinute,totalSec;
   double totalDistance;
 
   @override
@@ -27,6 +27,9 @@ class _PersonalBoard extends State<PersonalBoard> {
     super.initState();
     id = 'happy123';
     totalDistance = 0;
+    totalHour=0;
+    totalMinute=0;
+    totalSec=0;
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
     referenceImg = _database.reference().child('image');
@@ -41,7 +44,18 @@ class _PersonalBoard extends State<PersonalBoard> {
         _imgUrl.add(temp);
         print(double.parse(temp.distance));
         totalDistance += double.parse(temp.distance);
-        print(totalDistance);
+        totalHour += int.parse(temp.time.substring(0,2));
+        totalMinute += int.parse(temp.time.substring(3,5));
+        totalSec += int.parse(temp.time.substring(6,8));
+
+        if(totalSec>=60){
+          totalMinute+=1;
+          totalSec%=60;
+        }
+        if(totalMinute>=60){
+          totalHour+=1;
+          totalMinute%=60;
+        }
       });
     });
   }
@@ -80,34 +94,34 @@ class _PersonalBoard extends State<PersonalBoard> {
                     ),
                     Container(
                         child: Column(
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(screenWidth*0.1, screenHeight*0.02, 0, 0),
-                            child: Text("Running",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white))),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
-                            child: Text(totalDistance.toString()+"km",
-                                style: TextStyle(color: Colors.white))),
-                      ],
-                    )),
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.fromLTRB(screenWidth*0.1, screenHeight*0.02, 0, 0),
+                                child: Text("Running",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white))),
+                            Padding(
+                                padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
+                                child: Text(totalDistance.toString()+"km",
+                                    style: TextStyle(color: Colors.white))),
+                          ],
+                        )),
                     Container(
                         child: Column(
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(screenWidth*0.13, screenHeight*0.02, 0, 0),
-                            child: Text("Time",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white))),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
-                            child: Text("14h",
-                                style: TextStyle(color: Colors.white))),
-                      ],
-                    )),
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.fromLTRB(screenWidth*0.13, screenHeight*0.02, 0, 0),
+                                child: Text("Time",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white))),
+                            Padding(
+                                padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
+                                child: Text("${totalHour}h ${totalMinute}m ${totalSec}s",
+                                    style: TextStyle(color: Colors.white))),
+                          ],
+                        )),
                   ],
                 ),
                 Padding(
@@ -174,7 +188,7 @@ class _PersonalBoard extends State<PersonalBoard> {
               },
               itemCount: _imgUrl.length,
             ),
-                ),
+          ),
         ]),
       ),
     );

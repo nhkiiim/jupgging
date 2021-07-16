@@ -44,10 +44,12 @@ class _JupggingInfo extends State<JupggingInfo> {
         .initialization(); //위치데이터를 읽어옴
     distance = 0.0;
     check=0;
+    print('inittttttttttttttttttttttttt ---------- $dis_check');
   }
 
   @override
   Widget build(BuildContext context) {
+
     var screenHeight = MediaQuery.of(context).size.height;
     final dp = ModalRoute.of(context).settings.arguments as InfoLocation; //시작위치 받기
     departure = dp.start; //출발점 위치

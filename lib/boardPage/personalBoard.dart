@@ -19,12 +19,14 @@ class _PersonalBoard extends State<PersonalBoard> {
   DatabaseReference referenceImg;
   String _databaseURL =
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  String totalTime;
+  double totalDistance;
 
   @override
   void initState() {
     super.initState();
     id = 'happy123';
-
+    totalDistance = 0;
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
     referenceImg = _database.reference().child('image');
@@ -35,11 +37,14 @@ class _PersonalBoard extends State<PersonalBoard> {
     referenceImg.child(id).onChildAdded.listen((event) {
       print(event.snapshot.value.toString());
       setState(() {
-        _imgUrl.add(ImageURL.fromSnapshot(event.snapshot));
+        ImageURL temp = ImageURL.fromSnapshot(event.snapshot);
+        _imgUrl.add(temp);
+        print(double.parse(temp.distance));
+        totalDistance += double.parse(temp.distance);
+        print(totalDistance);
       });
     });
   }
-
 
   Widget build(BuildContext context) {
     _imgUrl = List.from(_imgUrl.reversed);
@@ -84,7 +89,7 @@ class _PersonalBoard extends State<PersonalBoard> {
                                     color: Colors.white))),
                         Padding(
                             padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
-                            child: Text("10km",
+                            child: Text(totalDistance.toString()+"km",
                                 style: TextStyle(color: Colors.white))),
                       ],
                     )),

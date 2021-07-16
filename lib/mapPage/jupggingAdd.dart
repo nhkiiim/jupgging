@@ -35,7 +35,7 @@ class _JupggingAdd extends State<JupggingAdd> {
   void initState() {
     super.initState();
 
-    id = 'happy123';
+    id = 'bcb123';
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     referenceImg = _database.reference().child('image');
     _firebaseStorage = FirebaseStorage.instance;
@@ -65,7 +65,7 @@ class _JupggingAdd extends State<JupggingAdd> {
               child: Center(
                 child: _image == null
                     ? Text('Image Upload')
-                    : Image.file(File(_image.path), fit: BoxFit.fill),
+                    : Image.file(File(_image.path), fit: BoxFit.cover),
               )),
           Container(
             child: Container(

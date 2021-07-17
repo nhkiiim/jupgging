@@ -118,7 +118,7 @@ class _PersonalBoard extends State<PersonalBoard> {
                                         color: Colors.white))),
                             Padding(
                                 padding: EdgeInsets.fromLTRB(screenWidth*0.12, screenHeight*0.03, 0, 0),
-                                child: Text("${totalHour}h ${totalMinute}m ${totalSec}s",
+                                child: Text("${totalHour.toString().padLeft(2, '0')}:${totalMinute.toString().padLeft(2, '0')}:${totalSec.toString().padLeft(2, '0')}",
                                     style: TextStyle(color: Colors.white))),
                           ],
                         )),

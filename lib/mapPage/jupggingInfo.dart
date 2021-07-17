@@ -44,7 +44,6 @@ class _JupggingInfo extends State<JupggingInfo> {
         .initialization(); //위치데이터를 읽어옴
     distance = 0.0;
     check=0;
-    print('inittttttttttttttttttttttttt ---------- $dis_check');
   }
 
   @override

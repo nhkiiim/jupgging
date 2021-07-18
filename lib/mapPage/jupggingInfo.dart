@@ -44,7 +44,6 @@ class _JupggingInfo extends State<JupggingInfo> {
         .initialization(); //위치데이터를 읽어옴
     distance = 0.0;
     check=0;
-    print('inittttttttttttttttttttttttt ---------- $dis_check');
   }
 
   @override
@@ -174,7 +173,10 @@ class _JupggingInfo extends State<JupggingInfo> {
                     ),
                     myLocationEnabled: true,
                     myLocationButtonEnabled: true,
-                    onMapCreated: (GoogleMapController controller) {})
+                    onMapCreated: (GoogleMapController controller) async{
+                      Provider.of<LocationProvider>(context,listen:false)
+                          .setMapController(controller);
+                    })
             )
           ],
         );
@@ -249,7 +251,7 @@ class _JupggingInfo extends State<JupggingInfo> {
         c((lat2 - lat1) * p) / 2 +
         c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     var dis = 12742 * asin(sqrt(a));
-    print(dis);
+    //print(dis);
     return dis;
   }
 

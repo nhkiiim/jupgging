@@ -88,8 +88,9 @@ class _FirstPageState extends State<FirstPage> with SingleTickerProviderStateMix
                   ),
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,
-                  onMapCreated: (GoogleMapController controller){
-
+                  onMapCreated: (GoogleMapController controller)async{
+                    Provider.of<LocationProvider>(context,listen:false)
+                        .setMapController(controller);
                   },
                 )
             )

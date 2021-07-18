@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:jupgging/models/image.dart';
 import 'package:jupgging/models/user.dart';
+import 'dart:convert';
 
 class PublicBoard extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class PublicBoard extends StatefulWidget {
 
 class _PublicBoard extends State<PublicBoard> {
   List<ImageURL> imglist = List();
+  List<String> idArr = List();
   String id;
   User user;
   FirebaseDatabase _database;
@@ -18,26 +20,37 @@ class _PublicBoard extends State<PublicBoard> {
   String _databaseURL =
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
 
+  //Map<String, ImageURL> map = Map();
+
   @override
-  void initState() {
+  void initState()  {
     super.initState();
-    id = 'happy123';
 
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
     referenceImg = _database.reference().child('image');
 
     referenceImg.orderByChild("createTime").onChildAdded.listen((event) {
-      print(event.snapshot.value.toString());
-      setState(() {
-        imglist.add(ImageURL.fromSnapshot(event.snapshot));
-      });
-    });
 
-    print(imglist);
+      // setState(() {
+      //   id=event.snapshot.key;
+         idArr.add(event.snapshot.key);
+      // });
+
+      // referenceImg.child(id).onChildAdded.listen((event) {
+      //   print('333333333333333${id}');
+      //   setState(() {
+      //     print('222222222222222${id}');
+      //     imglist.add(ImageURL.fromSnapshot1(event.snapshot, id));
+      //   });
+      // });
+
+    });
   }
 
+
   Widget build(BuildContext context) {
+
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -75,7 +88,7 @@ class _PublicBoard extends State<PublicBoard> {
                                   Padding(
                                     padding:
                                         EdgeInsets.fromLTRB(w*0.03, h*0.001, 0, 0),
-                                    child: Text(id,
+                                    child: Text(imglist[index].id,
                                         style: TextStyle(
                                           color: Colors.white,
                                             fontWeight: FontWeight.bold
@@ -89,7 +102,7 @@ class _PublicBoard extends State<PublicBoard> {
                             },
                               child: Column(
                                 children : [
-                                  //Image.network(imglist[index].mapUrl,height:h*0.45, width:w, fit: BoxFit.cover),
+                                  Image.network(imglist[index].mapUrl,height:h*0.45, width:w, fit: BoxFit.cover),
                                  Padding(
                                    padding: EdgeInsets.fromLTRB(w*0.03, h*0.02, 0, 0),
                                    child: Row(

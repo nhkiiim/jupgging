@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:jupgging/models/user.dart';
+import 'package:jupgging/auth/url.dart';
 
 class SignPage extends StatefulWidget {
   @override
@@ -13,8 +14,8 @@ class SignPage extends StatefulWidget {
 class _SignPage extends State<SignPage> {
   FirebaseDatabase _database;
   DatabaseReference reference;
-  String _databaseURL =
-      'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  URL url=URL();
+  String _databaseURL;
 
   TextEditingController _nameTextController;
   TextEditingController _idTextController;
@@ -30,7 +31,7 @@ class _SignPage extends State<SignPage> {
     _pwTextController = TextEditingController();
     _pwCheckTextController = TextEditingController();
     _emailTextController = TextEditingController();
-
+    _databaseURL=url.databaseURL;
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
   }
@@ -130,6 +131,7 @@ class _SignPage extends State<SignPage> {
                                         _idTextController.value.text,
                                         digest.toString(),
                                         _emailTextController.value.text,
+                                        "",
                                         DateTime.now().toIso8601String())
                                     .toJson())
                                 .then((_) {

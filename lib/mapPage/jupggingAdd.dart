@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:jupgging/models/image.dart';
+import 'package:jupgging/auth/url.dart';
 
 class JupggingAdd extends StatefulWidget {
   @override
@@ -19,8 +20,8 @@ class _JupggingAdd extends State<JupggingAdd> {
 
   FirebaseDatabase _database;
   DatabaseReference referenceImg;
-  String _databaseURL =
-      'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  URL url=URL();
+  String _databaseURL;
   FirebaseStorage _firebaseStorage;
 
   String id;
@@ -34,7 +35,7 @@ class _JupggingAdd extends State<JupggingAdd> {
   @override
   void initState() {
     super.initState();
-
+    _databaseURL=url.databaseURL;
     id = 'bcb123';
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     referenceImg = _database.reference().child('image');
@@ -161,7 +162,8 @@ class _JupggingAdd extends State<JupggingAdd> {
         imageURL.distance,
         imageURL.time,
         _commentTextController.value.text,
-        imageURL.createTime);
+        imageURL.createTime,
+        id);
 
     referenceImg
         .child(id)

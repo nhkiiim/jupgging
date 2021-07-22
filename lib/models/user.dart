@@ -6,9 +6,10 @@ class User {
   String id;
   String pw;
   String email;
+  String profileImg;
   String createTime;
 
-  User(this.name, this.id, this.pw, this.email, this.createTime);
+  User(this.name, this.id, this.pw, this.email, this.profileImg, this.createTime);
 
   User.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
@@ -16,6 +17,7 @@ class User {
         id = snapshot.value['id'],
         pw = snapshot.value['pw'],
         email = snapshot.value['email'],
+        profileImg = snapshot.value['profileImg'],
         createTime = snapshot.value['createTime'];
 
   toJson() {
@@ -24,6 +26,7 @@ class User {
       'id': id,
       'pw': pw,
       'email': email,
+      'profile': profileImg,
       'createTime': createTime,
     };
   }

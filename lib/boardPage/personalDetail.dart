@@ -52,8 +52,8 @@ class _PesonalDetail extends State<PersonalDetail> {
                                 "${(imageUrl.createTime).substring(0, 10)}",
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: screenHeight * 0.025,
-                                    fontWeight: FontWeight.bold)),
+                                    fontSize: screenHeight * 0.02,
+                                    )),
                           ),
                         ])),
                     Padding(
@@ -117,13 +117,17 @@ class _PesonalDetail extends State<PersonalDetail> {
                             padding: EdgeInsets.fromLTRB(
                                 0, screenHeight * 0.03, 0, 0),
                             child: Container(
-                              color: Color(0xFFC5E99B),
                               height: screenHeight * 0.2,
                               width: screenWidth * 0.9,
-                              child: Text('${imageUrl.comment}',
-                                  style:
-                                      TextStyle(fontSize: screenHeight * 0.02)),
-                            ),
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  // Respond to button press
+                                },
+                                child:  Text('${imageUrl.comment}',
+                                    style:
+                                    TextStyle(fontSize: screenHeight * 0.02)),
+                              ),
+                          ),
                           ),
                         ],
                       ),

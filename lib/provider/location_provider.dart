@@ -3,6 +3,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class LocationProvider with ChangeNotifier{
+
+  GoogleMapController _mapController;
+  GoogleMapController get mapController => _mapController;
+
   Location _location;
   Location get location => _location;
   LatLng _locationPosition;
@@ -45,8 +49,19 @@ class LocationProvider with ChangeNotifier{
             currentLocation.longitude
         );
 
-        print(_locationPosition);
-        notifyListeners();
+      setMapController(_mapController);
+        //print(_locationPosition);
+      notifyListeners();
     });
+  }
+
+  setMapController(GoogleMapController controller)async{
+    _mapController=controller;
+    _mapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: _locationPosition,
+            zoom:17
+        )
+    ));
   }
 }

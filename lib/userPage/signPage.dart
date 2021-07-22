@@ -131,6 +131,7 @@ class _SignPage extends State<SignPage> {
                                         _idTextController.value.text,
                                         digest.toString(),
                                         _emailTextController.value.text,
+                                        "",
                                         DateTime.now().toIso8601String())
                                     .toJson())
                                 .then((_) {

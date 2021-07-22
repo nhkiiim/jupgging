@@ -57,7 +57,7 @@ class _MyPage extends State<MyPage> {
                 if (user.pw == digest.toString()) {
                   if (user.email != _emailTextController.value.text) {
                     User upUser = User(user.name, user.id, user.pw,
-                        _emailTextController.value.text, user.createTime);
+                        _emailTextController.value.text, user.profileImg, user.createTime);
                     reference
                         .child(id)
                         .child(user.key)

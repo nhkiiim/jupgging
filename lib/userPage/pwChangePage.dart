@@ -69,7 +69,7 @@ class _PwChangePage extends State<PwChangePage> {
                             utf8.encode(_newPwTextController.value.text);
                         var digest1 = sha1.convert(bytes1);
                         User upUser = User(user.name, id, digest1.toString(),
-                            user.email, user.createTime);
+                            user.email, user.profileImg, user.createTime);
                         reference
                             .child(id)
                             .child(user.key)

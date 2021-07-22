@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jupgging/models/image.dart';
 import 'package:jupgging/models/user.dart';
 import 'dart:convert';
+import 'package:jupgging/auth/url.dart';
 
 class PublicBoard extends StatefulWidget {
   @override
@@ -17,15 +18,15 @@ class _PublicBoard extends State<PublicBoard> {
   FirebaseDatabase _database;
   DatabaseReference reference;
   DatabaseReference referenceImg;
-  String _databaseURL =
-      'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  URL url=URL();
+  String _databaseURL;
 
   //Map<String, ImageURL> map = Map();
 
   @override
   void initState()  {
     super.initState();
-
+    _databaseURL=url.databaseURL;
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
     referenceImg = _database.reference().child('image');

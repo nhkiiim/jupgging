@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jupgging/boardPage/personalDetail.dart';
 import 'package:jupgging/models/user.dart';
 import 'package:jupgging/models/image.dart';
+import 'package:jupgging/auth/url.dart';
 
 class PersonalBoard extends StatefulWidget {
   @override
@@ -17,14 +18,15 @@ class _PersonalBoard extends State<PersonalBoard> {
   FirebaseDatabase _database;
   DatabaseReference reference;
   DatabaseReference referenceImg;
-  String _databaseURL =
-      'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  URL url=URL();
+  String _databaseURL;
   int totalHour,totalMinute,totalSec;
   double totalDistance;
 
   @override
   void initState() {
     super.initState();
+    _databaseURL=url.databaseURL;
     id = 'happy123';
     totalDistance = 0;
     totalHour=0;

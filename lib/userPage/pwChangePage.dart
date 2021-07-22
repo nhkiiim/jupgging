@@ -5,6 +5,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'package:jupgging/models/user.dart';
+import 'package:jupgging/auth/url.dart';
+
+
 
 class PwChangePage extends StatefulWidget {
   @override
@@ -20,8 +23,8 @@ class _PwChangePage extends State<PwChangePage> {
   User user;
   FirebaseDatabase _database;
   DatabaseReference reference;
-  String _databaseURL =
-      'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  URL url=URL();
+  String _databaseURL;
 
   @override
   void initState() {
@@ -30,7 +33,7 @@ class _PwChangePage extends State<PwChangePage> {
     _nowPwTextController = TextEditingController();
     _newPwTextController = TextEditingController();
     _newPwCheckTextController = TextEditingController();
-
+    _databaseURL=url.databaseURL;
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
   }

@@ -33,18 +33,18 @@ class _PublicBoard extends State<PublicBoard> {
 
     referenceImg.orderByChild("createTime").onChildAdded.listen((event) {
 
-      // setState(() {
-      //   id=event.snapshot.key;
-         idArr.add(event.snapshot.key);
-      // });
+      setState(() {
+        id=event.snapshot.key;
+            //idArr.add(event.snapshot.key);
+      });
 
-      // referenceImg.child(id).onChildAdded.listen((event) {
-      //   print('333333333333333${id}');
-      //   setState(() {
-      //     print('222222222222222${id}');
-      //     imglist.add(ImageURL.fromSnapshot1(event.snapshot, id));
-      //   });
-      // });
+      referenceImg.child(id).onChildAdded.listen((event) {
+        print('333333333333333${id}');
+        setState(() {
+          print('222222222222222${id}');
+          imglist.add(ImageURL.fromSnapshot(event.snapshot));
+        });
+      });
 
     });
   }

@@ -217,7 +217,7 @@ class _JupggingEnd extends State<JupggingEnd> {
         .child(id)
         .push()
         .set(ImageURL(downloadURL, "", distance.toString(), time, "",
-        DateTime.now().toIso8601String())
+        DateTime.now().toIso8601String(),id)
         .toJson())
         .then((_) {
       print('url 저장완료');

@@ -162,7 +162,8 @@ class _JupggingAdd extends State<JupggingAdd> {
         imageURL.distance,
         imageURL.time,
         _commentTextController.value.text,
-        imageURL.createTime);
+        imageURL.createTime,
+        id);
 
     referenceImg
         .child(id)

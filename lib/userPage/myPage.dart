@@ -5,6 +5,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:jupgging/models/user.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+import 'package:jupgging/auth/url.dart';
+
 
 class MyPage extends StatefulWidget {
   @override
@@ -18,15 +23,22 @@ class _MyPage extends State<MyPage> {
   String id;
   User user;
 
+  File _image;
+
   FirebaseDatabase _database;
   DatabaseReference reference;
-  String _databaseURL =
-      'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  URL url=URL();
+  String _databaseURL;
+
+  void Photo(ImageSource source) async {
+    File file = await ImagePicker.pickImage(source: source);
+    setState(() => _image = file);
+  }
 
   @override
   void initState() {
     super.initState();
-
+    _databaseURL=url.databaseURL;
     //id = 'happy123';
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
@@ -56,7 +68,7 @@ class _MyPage extends State<MyPage> {
                 if (user.pw == digest.toString()) {
                   if (user.email != _emailTextController.value.text) {
                     User upUser = User(user.name, user.id, user.pw,
-                        _emailTextController.value.text, user.createTime);
+                        _emailTextController.value.text, user.profileImg, user.createTime);
                     reference
                         .child(id)
                         .child(user.key)
@@ -98,7 +110,9 @@ class _MyPage extends State<MyPage> {
                         ),
                       ),
                       FlatButton(
-                          onPressed: () {},
+                          onPressed: () => setState(() {
+                            _selectPhotoButton(context);
+                          }),
                           child: Text(
                             '프로필 사진 바꾸기',
                             style: TextStyle(color: Colors.blue),
@@ -256,6 +270,29 @@ class _MyPage extends State<MyPage> {
         ),
       ),
     );
+  }
+
+  void _selectPhotoButton(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.photo_camera),
+                  title: Text("사진 찍기"),
+                  onTap: () => Photo(ImageSource.camera),
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo),
+                  title: Text("앨범에서 가져오기"),
+                  onTap: () => Photo(ImageSource.gallery),
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   void makeDialog(String text) {

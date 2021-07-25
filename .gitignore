@@ -2,6 +2,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/flutter,androidstudio,firebase
 # Edit at https://www.toptal.com/developers/gitignore?templates=flutter,androidstudio,firebase
 
+### auth ###
+lib/auth
+
+
 ### Firebase ###
 .idea
 **/node_modules/*

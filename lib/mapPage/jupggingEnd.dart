@@ -14,6 +14,7 @@ import 'dart:math' show cos, sqrt, asin;
 import 'package:provider/provider.dart';
 import 'dart:typed_data';
 import 'package:screenshot/screenshot.dart';
+import 'package:jupgging/auth/url.dart';
 
 class JupggingEnd extends StatefulWidget {
   final RunningInfo run;
@@ -42,8 +43,8 @@ class _JupggingEnd extends State<JupggingEnd> {
 
   FirebaseDatabase _database;
   DatabaseReference referenceImg;
-  String _databaseURL =
-      'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  URL url=URL();
+  String _databaseURL;
   FirebaseStorage _firebaseStorage;
 
   String id;
@@ -60,7 +61,7 @@ class _JupggingEnd extends State<JupggingEnd> {
   @override
   void initState() {
     super.initState();
-
+    _databaseURL=url.databaseURL;
     id = 'bcb123';
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     referenceImg = _database.reference().child('image');
@@ -216,7 +217,7 @@ class _JupggingEnd extends State<JupggingEnd> {
         .child(id)
         .push()
         .set(ImageURL(downloadURL, "", distance.toString(), time, "",
-        DateTime.now().toIso8601String())
+        DateTime.now().toIso8601String(),id)
         .toJson())
         .then((_) {
       print('url 저장완료');

@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:jupgging/models/user.dart';
+import 'package:jupgging/auth/url.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,8 +16,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
   FirebaseDatabase _database;
   DatabaseReference reference;
-  String _databaseURL =
-      'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  URL url=URL();
+  String _databaseURL;
 
   double opacity = 0; //?
   AnimationController _animationController;
@@ -27,7 +28,7 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    _databaseURL=url.databaseURL;
     _idTextController = TextEditingController();
     _pwTextController = TextEditingController();
 

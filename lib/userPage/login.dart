@@ -114,6 +114,7 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
                               maxLines: 1,
                               decoration: InputDecoration(
                                   labelText: 'PW', border: OutlineInputBorder()),
+                              obscureText: true,
                             ),
                           ),
                           Row(

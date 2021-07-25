@@ -184,6 +184,7 @@ class _MyPage extends State<MyPage> {
                             width: MediaQuery.of(context).size.width - 110,
                             child: TextField(
                               controller: _pwTextController,
+                              obscureText: true,
                               maxLines: 1,
                               decoration: InputDecoration(
                                 hintText: '비밀번호를 입력해주세요',

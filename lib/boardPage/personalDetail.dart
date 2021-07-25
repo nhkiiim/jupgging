@@ -6,6 +6,7 @@ import 'package:jupgging/models/user.dart';
 
 class PersonalDetail extends StatefulWidget {
   ImageURL imageUrl;
+  User user;
 
   @override
   State<StatefulWidget> createState() => _PesonalDetail();

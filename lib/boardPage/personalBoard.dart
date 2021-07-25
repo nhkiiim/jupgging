@@ -36,6 +36,10 @@ class _PersonalBoard extends State<PersonalBoard> {
     reference = _database.reference().child('user');
     referenceImg = _database.reference().child('image');
 
+    // reference.child(id).onChildAdded.listen((event) {
+    //   user=User.fromSnapshot(event.snapshot);
+    // });
+
     // ImageDownload().then((value)=>{
     //   setState(() {_imgUrl = value;})
     // });
@@ -87,7 +91,9 @@ class _PersonalBoard extends State<PersonalBoard> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(55.0),
-                        child: Image.asset(
+                        child:
+                        //Image.network(user.profileImg, fit: BoxFit.fill)
+                        Image.asset(
                           'image/tree.jpg',
                           width: screenHeight*0.12,
                           height: screenHeight*0.12,
@@ -176,7 +182,8 @@ class _PersonalBoard extends State<PersonalBoard> {
                           //누르면 인스타 개인 게시물처럼 보기
                           Navigator.of(context)
                               .pushNamed('/detail',
-                              arguments: _imgUrl[index]);
+                              arguments: _imgUrl[index]
+                              );
                         },
                         child:
                         //Text(_imgUrl[index].mapUrl),

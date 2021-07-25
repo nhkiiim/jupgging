@@ -214,7 +214,6 @@ class _JupggingEnd extends State<JupggingEnd> {
 
     //mapUrl, distance, time, createTime를 db에 저장----------------------------
     referenceImg
-        .child(id)
         .push()
         .set(ImageURL(downloadURL, "", distance.toString(), time, "",
         DateTime.now().toIso8601String(),id)
@@ -223,7 +222,6 @@ class _JupggingEnd extends State<JupggingEnd> {
       print('url 저장완료');
 
       referenceImg
-          .child(id)
           .orderByChild("mapUrl")
           .equalTo(downloadURL)
           .onChildAdded.listen((event) async {

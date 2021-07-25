@@ -166,7 +166,6 @@ class _JupggingAdd extends State<JupggingAdd> {
         id);
 
     referenceImg
-        .child(id)
         .child(imageURL.key)
         .set(upImageURL.toJson())
         .then((_) {

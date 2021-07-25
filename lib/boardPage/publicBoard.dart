@@ -32,26 +32,15 @@ class _PublicBoard extends State<PublicBoard> {
     referenceImg = _database.reference().child('image');
 
     referenceImg.orderByChild("createTime").onChildAdded.listen((event) {
-
       setState(() {
-        id=event.snapshot.key;
+        imglist.add(ImageURL.fromSnapshot(event.snapshot));
             //idArr.add(event.snapshot.key);
       });
-
-      referenceImg.child(id).onChildAdded.listen((event) {
-        print('333333333333333${id}');
-        setState(() {
-          print('222222222222222${id}');
-          imglist.add(ImageURL.fromSnapshot(event.snapshot));
-        });
-      });
-
     });
   }
 
-
   Widget build(BuildContext context) {
-
+    imglist = List.from(imglist.reversed);
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -108,8 +97,8 @@ class _PublicBoard extends State<PublicBoard> {
                                    padding: EdgeInsets.fromLTRB(w*0.03, h*0.02, 0, 0),
                                    child: Row(
                                     children:[
-                                      Text( id, style: TextStyle(fontWeight: FontWeight.bold)),
-                                      Text("    코멘트 자리"),
+                                      Text( imglist[index].id, style: TextStyle(fontWeight: FontWeight.bold)),
+                                      Text('    ${imglist[index].comment}'),
                                       Padding(
                                           padding: EdgeInsets.fromLTRB(0, h*0.001, w*0.03,0 ),
 

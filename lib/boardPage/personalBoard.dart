@@ -27,7 +27,7 @@ class _PersonalBoard extends State<PersonalBoard> {
   void initState() {
     super.initState();
     _databaseURL=url.databaseURL;
-    id = 'happy123';
+    id = 'bcb123';
     totalDistance = 0;
     totalHour=0;
     totalMinute=0;
@@ -39,7 +39,8 @@ class _PersonalBoard extends State<PersonalBoard> {
     // ImageDownload().then((value)=>{
     //   setState(() {_imgUrl = value;})
     // });
-    referenceImg.child(id).onChildAdded.listen((event) {
+    referenceImg..orderByChild("id")
+        .equalTo(id).onChildAdded.listen((event) {
       print(event.snapshot.value.toString());
       setState(() {
         ImageURL temp = ImageURL.fromSnapshot(event.snapshot);

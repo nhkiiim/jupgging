@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jupgging/models/image.dart';
 import 'package:jupgging/models/user.dart';
@@ -52,8 +53,11 @@ class _PublicBoard extends State<PublicBoard> {
     imglist = List.from(imglist.reversed);
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
     return Scaffold(
-        body: Container(
+        body: Padding(
+          padding: EdgeInsets.only(top: statusBarHeight),
+        child:Container(
       child: Column(children: [
         if (imglist.length == 0) CircularProgressIndicator() else Expanded(
                 child: GridView.builder(
@@ -126,6 +130,6 @@ class _PublicBoard extends State<PublicBoard> {
                 ),
               ),
       ]),
-    ));
+    )));
   }
 }

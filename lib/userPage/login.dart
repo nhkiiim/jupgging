@@ -7,6 +7,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:jupgging/models/user.dart';
 import 'package:jupgging/auth/url.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,6 +19,7 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
   DatabaseReference reference;
   URL url=URL();
   String _databaseURL;
+  static final storage = new FlutterSecureStorage();
 
   double opacity = 0; //?
   AnimationController _animationController;
@@ -111,10 +113,7 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
                                                   .encode(_pwTextController.value.text);
                                               var digest = sha1.convert(bytes);
                                               if (user.pw == digest.toString()) {
-                                                Navigator.of(context)
-                                                    .pushReplacementNamed('/main',
-                                                    arguments:
-                                                    _idTextController.value.text);
+                                                nextMethod();
                                               } else {
                                                 makeDialog('비밀번호가 틀립니다');
                                               }
@@ -138,6 +137,18 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  nextMethod() async {
+    await storage.write(
+        key: "login",
+        value: _idTextController.value.text
+    );
+
+    Navigator.of(context)
+        .pushReplacementNamed('/main',
+        arguments:
+        _idTextController.value.text);
   }
 
   void makeDialog(String text) {

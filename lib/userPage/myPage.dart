@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:jupgging/auth/url.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 class MyPage extends StatefulWidget {
@@ -22,13 +23,14 @@ class _MyPage extends State<MyPage> {
 
   String id;
   User user;
-
   File _image;
 
   FirebaseDatabase _database;
   DatabaseReference reference;
+
   URL url=URL();
-  String _databaseURL;
+  String _databaseURL = 'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  static final storage = new FlutterSecureStorage();
 
   void Photo(ImageSource source) async {
     File file = await ImagePicker.pickImage(source: source);
@@ -39,7 +41,6 @@ class _MyPage extends State<MyPage> {
   void initState() {
     super.initState();
     _databaseURL=url.databaseURL;
-    //id = 'happy123';
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
 
@@ -256,7 +257,35 @@ class _MyPage extends State<MyPage> {
                               ))),
                       Container(
                           child: FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('${user.id}님'),
+                                        content: Text('로그아웃 하시겠습니까?'),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                              onPressed: () {
+                                                storage.delete(key: "login");
+                                                Navigator.of(context).pop();//다이얼로그
+                                                Navigator.of(context).pop();//마이페이지
+                                                Navigator.of(context)
+                                                    .pushReplacementNamed(
+                                                  '/login',
+                                                );//퍼스널페이지 -> 로그인 페이지로
+                                              },
+                                              child: Text('예')),
+                                          FlatButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('아니오'))
+                                        ],
+                                      );
+                                    });
+
+                              },
                               child: Text(
                                 '로그아웃',
                                 style: TextStyle(color: Colors.blue),

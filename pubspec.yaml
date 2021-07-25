@@ -26,7 +26,7 @@ dependencies:
   firebase_analytics: ^ 5.0.6
   screenshot: ^0.3.0
   flutter_image_slideshow : ^0.1.0
-
+  flutter_secure_storage: ^3.3.5
 
 dev_dependencies:
   flutter_test:

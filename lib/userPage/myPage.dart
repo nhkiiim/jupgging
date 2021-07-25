@@ -5,6 +5,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:jupgging/models/user.dart';
+<<<<<<< Updated upstream
+=======
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+import 'package:jupgging/auth/url.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+>>>>>>> Stashed changes
 
 class MyPage extends StatefulWidget {
   @override
@@ -20,8 +29,20 @@ class _MyPage extends State<MyPage> {
 
   FirebaseDatabase _database;
   DatabaseReference reference;
+<<<<<<< Updated upstream
   String _databaseURL =
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+=======
+  URL url=URL();
+  String _databaseURL;
+
+  static final storage = new FlutterSecureStorage();
+
+  void Photo(ImageSource source) async {
+    File file = await ImagePicker.pickImage(source: source);
+    setState(() => _image = file);
+  }
+>>>>>>> Stashed changes
 
   @override
   void initState() {
@@ -425,7 +446,35 @@ class _MyPage extends State<MyPage> {
                               ))),
                       Container(
                           child: FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('${user.id}님'),
+                                        content: Text('로그아웃 하시겠습니까?'),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                              onPressed: () {
+                                                storage.delete(key: "login");
+                                                Navigator.of(context).pop();//다이얼로그
+                                                Navigator.of(context).pop();//마이페이지
+                                                Navigator.of(context)
+                                                    .pushReplacementNamed(
+                                                  '/login',
+                                                );//퍼스널페이지 -> 로그인 페이지로
+                                              },
+                                              child: Text('예')),
+                                          FlatButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('아니오'))
+                                        ],
+                                      );
+                                    });
+
+                              },
                               child: Text(
                                 '로그아웃',
                                 style: TextStyle(color: Colors.blue),

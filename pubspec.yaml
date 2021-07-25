@@ -25,7 +25,12 @@ dependencies:
   firebase_storage: ^ 4.0.0
   firebase_analytics: ^ 5.0.6
   screenshot: ^0.3.0
+<<<<<<< Updated upstream
 
+=======
+  flutter_image_slideshow : ^0.1.0
+  flutter_secure_storage: ^3.3.5
+>>>>>>> Stashed changes
 
 
 dev_dependencies:

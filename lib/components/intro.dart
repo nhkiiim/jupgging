@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../userPage/login.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -8,19 +9,38 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPage extends State<IntroPage> {
+  String userId;
+  String pageName;
+  static final storage = new FlutterSecureStorage();
   @override
   void initState() {
     super.initState();
+    //loadData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
+
+  }
+
+  _asyncMethod() async {
+    userId=await storage.read(key: "login");
+    print(userId);
+    if (userId!=null) {
+      pageName='/main';
+    }
+    else {
+      pageName='/login';
+    }
     loadData();
   }
 
   Future<Timer> loadData() async {
-    return Timer(Duration(seconds: 5), onDoneLoading);
+    return Timer(Duration(seconds: 3), onDoneLoading);
   }
 
   onDoneLoading() async {
     Navigator.of(context)
-        .pushReplacementNamed('/login');
+        .pushReplacementNamed(pageName);
     //MaterialPageRoute(builder: (context) => LoginPage())
   }
 

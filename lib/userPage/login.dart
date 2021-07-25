@@ -6,6 +6,11 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:jupgging/models/user.dart';
+<<<<<<< Updated upstream
+=======
+import 'package:jupgging/auth/url.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+>>>>>>> Stashed changes
 
 class LoginPage extends StatefulWidget {
   @override
@@ -17,6 +22,8 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
   DatabaseReference reference;
   String _databaseURL =
       'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+
+  static final storage = new FlutterSecureStorage();
 
   double opacity = 0; //?
   AnimationController _animationController;
@@ -138,6 +145,7 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
                                           .child(_idTextController.value.text)
                                           .onChildAdded
                                           .listen((event) {
+<<<<<<< Updated upstream
                                         User user = User.fromSnapshot(event.snapshot);
                                         var bytes = utf8
                                             .encode(_pwTextController.value.text);
@@ -149,6 +157,25 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
                                                       _idTextController.value.text);
                                         } else {
                                           makeDialog('비밀번호가 틀립니다');
+=======
+                                        if (event.snapshot.value == null) {
+                                          makeDialog('아이디가 없습니다');
+                                        } else {
+                                          reference
+                                              .child(_idTextController.value.text)
+                                              .onChildAdded
+                                              .listen((event) {
+                                            User user = User.fromSnapshot(event.snapshot);
+                                            var bytes = utf8
+                                                .encode(_pwTextController.value.text);
+                                            var digest = sha1.convert(bytes);
+                                            if (user.pw == digest.toString()) {
+                                              nextMethod();
+                                            } else {
+                                              makeDialog('비밀번호가 틀립니다');
+                                            }
+                                          });
+>>>>>>> Stashed changes
                                         }
                                       });
                                     }
@@ -169,6 +196,18 @@ class _LoginPage extends State<LoginPage> with SingleTickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  nextMethod() async {
+    await storage.write(
+        key: "login",
+        value: _idTextController.value.text
+    );
+
+    Navigator.of(context)
+        .pushReplacementNamed('/main',
+        arguments:
+        _idTextController.value.text);
   }
 
   void makeDialog(String text) {

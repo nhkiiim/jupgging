@@ -29,7 +29,7 @@ class _MyPage extends State<MyPage> {
   DatabaseReference reference;
 
   URL url=URL();
-  String _databaseURL = 'https://flutterproject-86abc-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  String _databaseURL;
   static final storage = new FlutterSecureStorage();
 
   void Photo(ImageSource source) async {
@@ -46,6 +46,13 @@ class _MyPage extends State<MyPage> {
 
     _pwTextController = TextEditingController();
     _emailTextController = TextEditingController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
+  }
+  _asyncMethod() async {
+    id=await storage.read(key: "login");
   }
 
   @override

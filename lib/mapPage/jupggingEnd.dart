@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'dart:typed_data';
 import 'package:screenshot/screenshot.dart';
 import 'package:jupgging/auth/url.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class JupggingEnd extends StatefulWidget {
   final RunningInfo run;
@@ -58,17 +59,24 @@ class _JupggingEnd extends State<JupggingEnd> {
 
   //ScreenshotController screenshotController;
 
+  static final storage = new FlutterSecureStorage();
+
   @override
   void initState() {
     super.initState();
     _databaseURL=url.databaseURL;
-    id = 'bcb123';
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     referenceImg = _database.reference().child('image');
     _firebaseStorage = FirebaseStorage.instance;
     //screenshotController = ScreenshotController();
   }
 
+  _asyncMethod() async {
+    id=await storage.read(key: "login");
+  }
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;

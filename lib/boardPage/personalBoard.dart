@@ -5,6 +5,7 @@ import 'package:jupgging/boardPage/personalDetail.dart';
 import 'package:jupgging/models/user.dart';
 import 'package:jupgging/models/image.dart';
 import 'package:jupgging/auth/url.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class PersonalBoard extends StatefulWidget {
   @override
@@ -22,12 +23,14 @@ class _PersonalBoard extends State<PersonalBoard> {
   String _databaseURL;
   int totalHour,totalMinute,totalSec;
   double totalDistance;
-
+  static final storage = new FlutterSecureStorage();
   @override
   void initState() {
     super.initState();
     _databaseURL=url.databaseURL;
-    id = 'bcb123';
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
     totalDistance = 0;
     totalHour=0;
     totalMinute=0;
@@ -66,7 +69,9 @@ class _PersonalBoard extends State<PersonalBoard> {
       });
     });
   }
-
+  _asyncMethod() async {
+    id=await storage.read(key: "login");
+  }
   Widget build(BuildContext context) {
     _imgUrl = List.from(_imgUrl.reversed);
     var screenWidth = MediaQuery.of(context).size.width;

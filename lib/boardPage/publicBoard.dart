@@ -4,6 +4,7 @@ import 'package:jupgging/models/image.dart';
 import 'package:jupgging/models/user.dart';
 import 'dart:convert';
 import 'package:jupgging/auth/url.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class PublicBoard extends StatefulWidget {
   @override
@@ -20,12 +21,16 @@ class _PublicBoard extends State<PublicBoard> {
   DatabaseReference referenceImg;
   URL url=URL();
   String _databaseURL;
-
+  static final storage = new FlutterSecureStorage();
   //Map<String, ImageURL> map = Map();
 
   @override
   void initState()  {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
+
     _databaseURL=url.databaseURL;
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
@@ -37,6 +42,10 @@ class _PublicBoard extends State<PublicBoard> {
             //idArr.add(event.snapshot.key);
       });
     });
+  }
+
+  _asyncMethod() async {
+    id=await storage.read(key: "login");
   }
 
   Widget build(BuildContext context) {

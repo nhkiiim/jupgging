@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'package:jupgging/models/user.dart';
 import 'package:jupgging/auth/url.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 class PwChangePage extends StatefulWidget {
@@ -25,11 +25,13 @@ class _PwChangePage extends State<PwChangePage> {
   DatabaseReference reference;
   URL url=URL();
   String _databaseURL;
-
+  static final storage = new FlutterSecureStorage();
   @override
   void initState() {
     super.initState();
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
     _nowPwTextController = TextEditingController();
     _newPwTextController = TextEditingController();
     _newPwCheckTextController = TextEditingController();
@@ -37,10 +39,12 @@ class _PwChangePage extends State<PwChangePage> {
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
   }
-
+  _asyncMethod() async {
+    id=await storage.read(key: "login");
+  }
   @override
   Widget build(BuildContext context) {
-    id = ModalRoute.of(context).settings.arguments;
+    //id = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(

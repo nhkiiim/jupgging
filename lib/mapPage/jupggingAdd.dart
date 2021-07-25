@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:jupgging/models/image.dart';
 import 'package:jupgging/auth/url.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class JupggingAdd extends StatefulWidget {
   @override
@@ -27,6 +28,8 @@ class _JupggingAdd extends State<JupggingAdd> {
   String id;
   TextEditingController _commentTextController;
 
+  static final storage = new FlutterSecureStorage();
+
   void Photo(ImageSource source) async {
     File file = await ImagePicker.pickImage(source: source);
     setState(() => _image = file);
@@ -36,12 +39,18 @@ class _JupggingAdd extends State<JupggingAdd> {
   void initState() {
     super.initState();
     _databaseURL=url.databaseURL;
-    id = 'bcb123';
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     referenceImg = _database.reference().child('image');
     _firebaseStorage = FirebaseStorage.instance;
 
     _commentTextController = TextEditingController();
+  }
+
+  _asyncMethod() async {
+    id=await storage.read(key: "login");
   }
 
   @override

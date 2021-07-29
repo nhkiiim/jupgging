@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +27,7 @@ class _MyPage extends State<MyPage> {
 
   FirebaseDatabase _database;
   DatabaseReference reference;
+  FirebaseStorage _firebaseStorage;
 
   URL url=URL();
   String _databaseURL;
@@ -52,13 +53,18 @@ class _MyPage extends State<MyPage> {
     });
   }
   _asyncMethod() async {
-    id=await storage.read(key: "login");
+    String _id=await storage.read(key: "login");
+    setState(() {id=_id;});
+    reference.child(id).onChildAdded.listen((event) async {
+      user=await User.fromSnapshot(event.snapshot);
+    });
+
   }
 
   @override
   Widget build(BuildContext context) {
-    user = ModalRoute.of(context).settings.arguments;
-
+    //user = ModalRoute.of(context).settings.arguments;
+    print('-------------------------${user}');
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -110,8 +116,8 @@ class _MyPage extends State<MyPage> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(55.0),
-                        child: Image.asset(
-                          'image/tree.jpg',
+                        child: Image.network(
+                          user.profileImg,
                           width: 90,
                           height: 90,
                           fit: BoxFit.fill,
@@ -319,17 +325,56 @@ class _MyPage extends State<MyPage> {
                 ListTile(
                   leading: Icon(Icons.photo_camera),
                   title: Text("사진 찍기"),
-                  onTap: () => Photo(ImageSource.camera),
+                  onTap: () { _uploadImageToStorage(ImageSource.camera).then((value){
+                    Navigator.of(context).pop();
+                  }); },
                 ),
                 ListTile(
                   leading: Icon(Icons.photo),
                   title: Text("앨범에서 가져오기"),
-                  onTap: () => Photo(ImageSource.gallery),
+                  onTap: () { _uploadImageToStorage(ImageSource.gallery).then((value){
+                    Navigator.of(context).pop();
+                  });},
                 ),
               ],
             ),
           );
         });
+  }
+
+
+  Future<void> _uploadImageToStorage(ImageSource source) async {
+    File file = await ImagePicker.pickImage(source: source);
+    setState(() => _image = file);
+    // 프로필 사진을 업로드할 경로와 파일명을 정의.
+    StorageReference storageReference = _firebaseStorage
+        .ref()
+        .child("assets/${id}_${DateTime.now().millisecondsSinceEpoch}.png");
+
+    // 파일 업로드
+    StorageUploadTask storageUploadTask = storageReference.putFile(_image);
+
+    // 파일 업로드 완료까지 대기
+    await storageUploadTask.onComplete;
+
+    // 업로드한 사진의 URL 획득
+    String downloadURL = await storageReference.getDownloadURL();
+
+    //profileImg를 db에 update
+    User upUser = User(
+        user.name,
+        user.id,
+        user.pw,
+        user.email,
+        downloadURL,
+        user.createTime);
+
+    reference
+        .child(id)
+        .set(upUser.toJson())
+        .then((_) {
+      print('업데이트 완료');
+    });
   }
 
   void makeDialog(String text) {

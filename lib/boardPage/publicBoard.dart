@@ -16,6 +16,7 @@ class _PublicBoard extends State<PublicBoard> {
   List<ImageURL> imglist = List();
   List<String> idArr = List();
   String id;
+  String profileImage;
   User user;
   FirebaseDatabase _database;
   DatabaseReference reference;
@@ -51,6 +52,8 @@ class _PublicBoard extends State<PublicBoard> {
 
   Widget build(BuildContext context) {
     imglist = List.from(imglist.reversed);
+    idArr = List.from(idArr.reversed);
+
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -66,6 +69,12 @@ class _PublicBoard extends State<PublicBoard> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
+                    reference.orderByChild("id").equalTo(imglist[index].id).onChildAdded.listen((event) {
+                      setState(() {
+                        profileImage=User.fromSnapshot(event.snapshot).profileImg;
+                      });
+                      print("123123238472938479 $profileImage");
+                    });
                     return Container(
                       //child: GridTile(
                       child: Column(
@@ -79,8 +88,8 @@ class _PublicBoard extends State<PublicBoard> {
                                     margin: EdgeInsets.fromLTRB(w*0.03, 0, 0, 0),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(55.0),
-                                      child: Image.asset(
-                                        'image/tree.jpg',
+                                      child: Image.network(
+                                        idArr[index],
                                         width: 35,
                                         height: 35,
                                         fit: BoxFit.fill,
@@ -113,7 +122,6 @@ class _PublicBoard extends State<PublicBoard> {
                                       Text('    ${imglist[index].comment}'),
                                       Padding(
                                           padding: EdgeInsets.fromLTRB(0, h*0.001, w*0.03,0 ),
-
                                       ),
                                     ]
                                    ),

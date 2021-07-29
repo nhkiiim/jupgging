@@ -57,7 +57,7 @@ class _MyPage extends State<MyPage> {
   _asyncMethod() async {
     String _id=await storage.read(key: "login");
     setState(() {id=_id;});
-    reference.child(id).onChildAdded.listen((event) {
+    await reference.child(id).onChildAdded.listen((event) {
       setState(() {
         user=User.fromSnapshot(event.snapshot);
         _profileImgUrl=user.profileImg;

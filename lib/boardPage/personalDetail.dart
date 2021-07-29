@@ -35,18 +35,6 @@ class _PesonalDetail extends State<PersonalDetail> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               }),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(55.0),
-                              child: Image.asset(
-                                'image/tree.jpg',
-                                width: 35,
-                                height: 35,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
                           Padding(
                             padding: EdgeInsets.fromLTRB(
                                 screenWidth * 0.02, 0, 0, 0),

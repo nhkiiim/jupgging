@@ -54,8 +54,11 @@ class _PublicBoard extends State<PublicBoard> {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Scaffold(
-        body: Container(
+        body: Padding(
+          padding: EdgeInsets.only(top: statusBarHeight),
+        child:Container(
       child: Column(children: [
         if (imglist.length == 0) CircularProgressIndicator() else Expanded(
                 child: GridView.builder(
@@ -68,8 +71,7 @@ class _PublicBoard extends State<PublicBoard> {
                       //child: GridTile(
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0.3),
+                          Container(
                             child: Container(
                                 color: const Color(0xFF88C26F),
                                 height: 50,

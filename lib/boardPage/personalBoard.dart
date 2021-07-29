@@ -188,7 +188,7 @@ class _PersonalBoard extends State<PersonalBoard> {
                           Navigator.of(context)
                               .pushNamed('/detail',
                               arguments: _imgUrl[index]
-                              );
+                          );
                         },
                         child:
                         //Text(_imgUrl[index].mapUrl),

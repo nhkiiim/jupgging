@@ -18,11 +18,12 @@ class _PesonalDetail extends State<PersonalDetail> {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     final imageUrl = ModalRoute.of(context).settings.arguments as ImageURL;
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Scaffold(
         body: Container(
             child: Padding(
-                padding: EdgeInsets.fromLTRB(0, screenHeight * 0.035, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, statusBarHeight, 0, 0),
                 child: Column(
                   children: [
                     Container(

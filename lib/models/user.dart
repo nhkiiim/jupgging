@@ -26,7 +26,7 @@ class User {
       'id': id,
       'pw': pw,
       'email': email,
-      'profile': profileImg,
+      'profileImg': profileImg,
       'createTime': createTime,
     };
   }

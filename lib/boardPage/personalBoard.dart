@@ -72,7 +72,9 @@ class _PersonalBoard extends State<PersonalBoard> {
       });
     });
     reference.child(id).onChildAdded.listen((event) {
-      user = User.fromSnapshot(event.snapshot);
+      setState(() {
+        user = User.fromSnapshot(event.snapshot);
+      });
     });
   }
 

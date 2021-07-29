@@ -22,6 +22,7 @@ class _MyPage extends State<MyPage> {
   TextEditingController _emailTextController;
 
   String id;
+  String _profileImgUrl;
   User user;
   File _image;
 
@@ -42,6 +43,7 @@ class _MyPage extends State<MyPage> {
   void initState() {
     super.initState();
     _databaseURL=url.databaseURL;
+    _firebaseStorage = FirebaseStorage.instance;
     _database = FirebaseDatabase(databaseURL: _databaseURL);
     reference = _database.reference().child('user');
 
@@ -56,8 +58,11 @@ class _MyPage extends State<MyPage> {
   _asyncMethod() async {
     String _id=await storage.read(key: "login");
     setState(() {id=_id;});
-    reference.child(id).onChildAdded.listen((event) async {
-      user=await User.fromSnapshot(event.snapshot);
+    reference.child(id).onChildAdded.listen((event) {
+      setState(() {
+        user=User.fromSnapshot(event.snapshot);
+        _profileImgUrl=user.profileImg;
+      });
     });
   }
 
@@ -117,7 +122,7 @@ class _MyPage extends State<MyPage> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(55.0),
                         child: Image.network(
-                          user.profileImg,
+                          _profileImgUrl,
                           width: 90,
                           height: 90,
                           fit: BoxFit.fill,
@@ -325,16 +330,12 @@ class _MyPage extends State<MyPage> {
                 ListTile(
                   leading: Icon(Icons.photo_camera),
                   title: Text("사진 찍기"),
-                  onTap: () { _uploadImageToStorage(ImageSource.camera).then((value){
-                    Navigator.of(context).pop();
-                  }); },
+                  onTap: () => _uploadImageToStorage(ImageSource.camera),
                 ),
                 ListTile(
                   leading: Icon(Icons.photo),
                   title: Text("앨범에서 가져오기"),
-                  onTap: () { _uploadImageToStorage(ImageSource.gallery).then((value){
-                    Navigator.of(context).pop();
-                  });},
+                  onTap: () => _uploadImageToStorage(ImageSource.gallery),
                 ),
               ],
             ),
@@ -346,6 +347,7 @@ class _MyPage extends State<MyPage> {
   Future<void> _uploadImageToStorage(ImageSource source) async {
     File file = await ImagePicker.pickImage(source: source);
     setState(() => _image = file);
+
     // 프로필 사진을 업로드할 경로와 파일명을 정의.
     StorageReference storageReference = _firebaseStorage
         .ref()
@@ -360,6 +362,10 @@ class _MyPage extends State<MyPage> {
     // 업로드한 사진의 URL 획득
     String downloadURL = await storageReference.getDownloadURL();
 
+    setState(() {
+      _profileImgUrl=downloadURL;
+    });
+
     //profileImg를 db에 update
     User upUser = User(
         user.name,
@@ -371,9 +377,11 @@ class _MyPage extends State<MyPage> {
 
     reference
         .child(id)
+        .child(user.key)
         .set(upUser.toJson())
         .then((_) {
       print('업데이트 완료');
+      Navigator.of(context).pop();
     });
   }
 

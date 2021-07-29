@@ -52,13 +52,13 @@ class _MyPage extends State<MyPage> {
       _asyncMethod();
     });
   }
+
   _asyncMethod() async {
     String _id=await storage.read(key: "login");
     setState(() {id=_id;});
     reference.child(id).onChildAdded.listen((event) async {
       user=await User.fromSnapshot(event.snapshot);
     });
-
   }
 
   @override

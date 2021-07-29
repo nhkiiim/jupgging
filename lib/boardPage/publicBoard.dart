@@ -55,10 +55,9 @@ class _PublicBoard extends State<PublicBoard> {
     var h = MediaQuery.of(context).size.height;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
-    return Scaffold(
-        body: Padding(
-          padding: EdgeInsets.only(top: statusBarHeight),
-        child:Container(
+    return SafeArea(
+      child:Scaffold(
+        body: Container(
       child: Column(children: [
         if (imglist.length == 0) CircularProgressIndicator() else Expanded(
                 child: GridView.builder(

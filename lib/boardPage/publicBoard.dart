@@ -41,7 +41,6 @@ class _PublicBoard extends State<PublicBoard> {
     referenceImg.orderByChild("createTime").onChildAdded.listen((event) {
       setState(() {
         imglist.add(ImageURL.fromSnapshot(event.snapshot));
-            //idArr.add(event.snapshot.key);
       });
     });
   }
@@ -52,7 +51,6 @@ class _PublicBoard extends State<PublicBoard> {
 
   Widget build(BuildContext context) {
     imglist = List.from(imglist.reversed);
-    idArr = List.from(idArr.reversed);
 
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
@@ -69,11 +67,9 @@ class _PublicBoard extends State<PublicBoard> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    reference.orderByChild("id").equalTo(imglist[index].id).onChildAdded.listen((event) {
-                      setState(() {
+                    reference.child(imglist[index].id).onChildAdded.listen((event) {
                         profileImage=User.fromSnapshot(event.snapshot).profileImg;
-                      });
-                      print("123123238472938479 $profileImage");
+                      print("123123238472938479 ${User.fromSnapshot(event.snapshot).profileImg}");
                     });
                     return Container(
                       //child: GridTile(
@@ -88,8 +84,9 @@ class _PublicBoard extends State<PublicBoard> {
                                     margin: EdgeInsets.fromLTRB(w*0.03, 0, 0, 0),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(55.0),
-                                      child: Image.network(
-                                        idArr[index],
+                                      child:
+                                      Image.network(
+                                        profileImage,
                                         width: 35,
                                         height: 35,
                                         fit: BoxFit.fill,

@@ -81,24 +81,28 @@ class _MyPage extends State<MyPage> {
               if (_pwTextController.value.text.length == 0) {
                 makeDialog('비밀번호를 입력해주세요');
               } else {
-                var bytes = utf8.encode(_pwTextController.value.text);
-                var digest = sha1.convert(bytes);
-                if (user.pw == digest.toString()) {
-                  if (user.email != _emailTextController.value.text) {
-                    User upUser = User(user.name, user.id, user.pw,
-                        _emailTextController.value.text, user.profileImg, user.createTime);
-                    reference
-                        .child(id)
-                        .child(user.key)
-                        .set(upUser.toJson())
-                        .then((_) {
-                      Navigator.of(context).pop();
-                    });
+                if (_emailTextController.value.text != "") {
+                  var bytes = utf8.encode(_pwTextController.value.text);
+                  var digest = sha1.convert(bytes);
+                  if (user.pw == digest.toString()) {
+                    if (user.email != _emailTextController.value.text) {
+                      User upUser = User(user.name, user.id, user.pw,
+                          _emailTextController.value.text, user.profileImg, user.createTime);
+                      reference
+                          .child(id)
+                          .child(user.key)
+                          .set(upUser.toJson())
+                          .then((_) {
+                        Navigator.of(context).pop();
+                      });
+                    } else {
+                      makeDialog('기존 이메일과 똑같습니다');
+                    }
                   } else {
-                    makeDialog('기존 이메일과 똑같습니다');
+                    makeDialog('비밀번호가 일치하지 않습니다');
                   }
                 } else {
-                  makeDialog('비밀번호가 일치하지 않습니다');
+                  makeDialog('변경할 이메일을 입력해주세요');
                 }
               }
             },

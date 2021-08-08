@@ -101,10 +101,14 @@ class _PersonalBoard extends State<PersonalBoard> {
                           screenHeight * 0.04),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(55.0),
-                        child: Image.network(user.profileImg,
+                        child: FadeInImage(
+                            placeholder: AssetImage('image/profile.png'),
+                            image : NetworkImage(user.profileImg,
+                           ),
                             width: screenHeight * 0.12,
                             height: screenHeight * 0.12,
-                            fit: BoxFit.fill),
+                            fit: BoxFit.fill
+                        ),
                       ),
                     ),
                     Container(

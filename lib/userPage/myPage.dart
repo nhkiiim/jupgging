@@ -72,6 +72,7 @@ class _MyPage extends State<MyPage> {
     //print('username-------------------------${user.name}');
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(color:Colors.white),
         title: Text(
           '프로필 편집',
           style: TextStyle(color: Colors.white),

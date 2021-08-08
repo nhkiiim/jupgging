@@ -94,9 +94,11 @@ class _PublicBoard extends State<PublicBoard> {
                                     margin: EdgeInsets.fromLTRB(w*0.03, 0, 0, 0),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(55.0),
-                                      child:
-                                      Image.network(
+                                      child:FadeInImage(
+                                        placeholder : AssetImage('image/profile.png'),
+                                        image : NetworkImage(
                                         idArr[index],
+                                      ),
                                         width: 35,
                                         height: 35,
                                         fit: BoxFit.fill,

@@ -47,6 +47,7 @@ class _PwChangePage extends State<PwChangePage> {
     //id = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(color:Colors.white),
         title: Text(
           '비밀번호 변경',
           style: TextStyle(color: Colors.white),

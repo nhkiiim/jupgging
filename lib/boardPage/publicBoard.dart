@@ -39,8 +39,17 @@ class _PublicBoard extends State<PublicBoard> {
     referenceImg = _database.reference().child('image');
 
     referenceImg.orderByChild("createTime").onChildAdded.listen((event) {
+      ImageURL temp=ImageURL.fromSnapshot(event.snapshot);
       setState(() {
-        imglist.add(ImageURL.fromSnapshot(event.snapshot));
+        imglist.add(temp);
+      });
+      reference.child(temp.id).onChildAdded.listen((event) {
+        profileImage=User.fromSnapshot(event.snapshot).profileImg;
+        //print("123123238472938479 ${User.fromSnapshot(event.snapshot).profileImg}");
+        setState(() {
+          idArr.add(profileImage);
+        });
+
       });
     });
   }
@@ -51,7 +60,8 @@ class _PublicBoard extends State<PublicBoard> {
 
   Widget build(BuildContext context) {
     imglist = List.from(imglist.reversed);
-
+    idArr = List.from(idArr.reversed);
+    print('---------------------------$idArr');
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -67,10 +77,10 @@ class _PublicBoard extends State<PublicBoard> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    reference.child(imglist[index].id).onChildAdded.listen((event) {
-                        profileImage=User.fromSnapshot(event.snapshot).profileImg;
-                      print("123123238472938479 ${User.fromSnapshot(event.snapshot).profileImg}");
-                    });
+                    // reference.child(imglist[index].id).onChildAdded.listen((event) {
+                    //     profileImage=User.fromSnapshot(event.snapshot).profileImg;
+                    //   print("123123238472938479 ${User.fromSnapshot(event.snapshot).profileImg}");
+                    // });
                     return Container(
                       //child: GridTile(
                       child: Column(
@@ -86,7 +96,7 @@ class _PublicBoard extends State<PublicBoard> {
                                       borderRadius: BorderRadius.circular(55.0),
                                       child:
                                       Image.network(
-                                        profileImage,
+                                        idArr[index],
                                         width: 35,
                                         height: 35,
                                         fit: BoxFit.fill,

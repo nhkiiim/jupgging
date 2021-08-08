@@ -61,7 +61,7 @@ class _PublicBoard extends State<PublicBoard> {
   Widget build(BuildContext context) {
     imglist = List.from(imglist.reversed);
     idArr = List.from(idArr.reversed);
-    print('---------------------------$idArr');
+    //print('---------------------------$idArr');
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     final double statusBarHeight = MediaQuery.of(context).padding.top;

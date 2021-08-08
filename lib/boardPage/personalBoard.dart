@@ -50,7 +50,7 @@ class _PersonalBoard extends State<PersonalBoard> {
     setState(() {
       id = _id;
     });
-    referenceImg.orderByChild("id").equalTo(id).onChildAdded.listen((event) {
+    await referenceImg.orderByChild("id").equalTo(id).onChildAdded.listen((event) {
       //print(event.snapshot.value.toString());
       setState(() {
         ImageURL temp = ImageURL.fromSnapshot(event.snapshot);

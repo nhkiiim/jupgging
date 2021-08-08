@@ -54,6 +54,7 @@ class _MyPage extends State<MyPage> {
       _asyncMethod();
     });
   }
+
   _asyncMethod() async {
     String _id=await storage.read(key: "login");
     setState(() {id=_id;});
@@ -68,7 +69,7 @@ class _MyPage extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     //user = ModalRoute.of(context).settings.arguments;
-    print('-------------------------${user}');
+    //print('username-------------------------${user.name}');
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -120,12 +121,12 @@ class _MyPage extends State<MyPage> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(55.0),
-                        child: Image.network(
+                        child: _profileImgUrl!=null? Image.network(
                           _profileImgUrl,
                           width: 90,
                           height: 90,
                           fit: BoxFit.fill,
-                        ),
+                        ):Container(),
                       ),
                       FlatButton(
                           onPressed: () => setState(() {

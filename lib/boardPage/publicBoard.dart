@@ -110,7 +110,7 @@ class _PublicBoard extends State<PublicBoard> {
                             },
                               child: Column(
                                 children : [
-                                  Image.network(imglist[index].mapUrl,height:h*0.45, width:w, fit: BoxFit.cover),
+                                  imglist[index].mapUrl!=null?Image.network(imglist[index].mapUrl,height:h*0.45, width:w, fit: BoxFit.cover):Container(),
                                  Padding(
                                    padding: EdgeInsets.fromLTRB(w*0.03, h*0.02, 0, 0),
                                    child: Row(

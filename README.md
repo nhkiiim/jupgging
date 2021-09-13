@@ -21,10 +21,20 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Output
 
+- 조깅 실시간 위치추적 및 달린 거리/시간 저장
+
+    <img width="300" alt="게시글등록" src="https://user-images.githubusercontent.com/59560592/133100044-fe58f7bf-1aa3-4edd-bf01-3a64fd10608c.gif">&nbsp;&nbsp;
+
 <br>
 
-<img width="300" alt="게시글등록" src="https://user-images.githubusercontent.com/59560592/133100044-fe58f7bf-1aa3-4edd-bf01-3a64fd10608c.gif">&nbsp;&nbsp;
+- 개인 게시판
 
-<img width="300" alt="개인게시판" src="https://user-images.githubusercontent.com/59560592/133099540-3e173166-d7ce-4293-a860-1b03ebad9ccc.png">&nbsp;&nbsp;
+    <img width="300" alt="개인게시판" src="https://user-images.githubusercontent.com/59560592/133099540-3e173166-d7ce-4293-a860-1b03ebad9ccc.png">&nbsp;&nbsp;
 
-<img width="300" alt="공유게시판" src="https://user-images.githubusercontent.com/59560592/133100294-22867263-d661-42dd-be0a-86ab1e8fece8.gif">
+<br>
+
+- 공유게시판에 줍깅 기록 공유
+
+    <img width="300" alt="공유게시판" src="https://user-images.githubusercontent.com/59560592/133100294-22867263-d661-42dd-be0a-86ab1e8fece8.gif">
+
+<br>

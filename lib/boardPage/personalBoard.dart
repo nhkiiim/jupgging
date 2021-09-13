@@ -124,7 +124,7 @@ class _PersonalBoard extends State<PersonalBoard> {
                         Padding(
                             padding: EdgeInsets.fromLTRB(
                                 screenWidth * 0.12, screenHeight * 0.03, 0, 0),
-                            child: Text(totalDistance.toString() + "km",
+                            child: Text(totalDistance.toString().substring(0,4) + "km",
                                 style: TextStyle(color: Colors.white))),
                       ],
                     )),
